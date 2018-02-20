@@ -39,4 +39,4 @@ Browserify is setup to transform both ES6 Javascript and ```glslify``` for GLSL 
 ## Pushing to Heroku
 **TODO**
 
-> Thanks to [Dror Ayalon](https://github.com/dodiku)
+> Special thanks to [Dror Ayalon](https://github.com/dodiku)
