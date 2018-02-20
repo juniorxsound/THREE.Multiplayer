@@ -20,6 +20,8 @@ The start script launches:
 - ```nodemon``` Which restarts the server on every change (port: 1989)
 - ```watchify``` Which bundles the client code from ```src/``` on every change to ```./public/js/bundle.js```
 
+![Server Log](https://github.com/juniorxsound/THREE-Multiplayer/blob/master/resources/Logs.png)
+
 On connection each client recives it's uniqe ID and on every movement broadcasts to all the other clients all the locations of everyone connected
 ```js
 {
@@ -29,8 +31,6 @@ On connection each client recives it's uniqe ID and on every movement broadcasts
   }
 }
 ```
-
-![Server Log](https://github.com/juniorxsound/THREE-Multiplayer/blob/master/resources/Logs.png)
 
 You can also run ```npm run build``` to bundle and minify the client code to ```./public/js/bundle.min.js```
 
