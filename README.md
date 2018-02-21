@@ -2,6 +2,7 @@
 My boilerplate Node.js server and client setup for Three.js multiplayer projects using Socket.io
 - [Installation](#installation)
 - [Usage](#usage)
+- [Pushing to Heroku](#pushing-to-heroku)
 
 ![Multiplayer](https://github.com/juniorxsound/THREE-Multiplayer/blob/master/resources/multiplayer.gif)
 
@@ -37,6 +38,6 @@ You can also run ```npm run build``` to bundle and minify the client code to ```
 Browserify is setup to transform both ES6 Javascript and ```glslify``` for GLSL shader bundling ([example](https://github.com/juniorxsound/DepthKit.js) of a project that uses ```glslify```)
 
 ## Pushing to Heroku
-**TODO**
+[This is a detailed tutorial](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) of how to push your code to Heroku through Github to serve your experience publicly
 
 > Special thanks to [Dror Ayalon](https://github.com/dodiku)
