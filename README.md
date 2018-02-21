@@ -1,4 +1,6 @@
 # THREE Multiplayer
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
 My boilerplate Node.js server and client setup for Three.js multiplayer projects using Socket.io
 - [Installation](#installation)
 - [Usage](#usage)
