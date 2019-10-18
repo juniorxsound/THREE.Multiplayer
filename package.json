@@ -11,7 +11,9 @@
   "author": "Or Fleisher <contact@orfleisher.com>",
   "license": "MIT",
   "dependencies": {
+    "dat.gui": "^0.7.6",
     "ejs": "^2.5.7",
+    "eslint": "^6.5.1",
     "event-emitter-es6": "^1.1.5",
     "express": "^4.16.2",
     "gsap": "^1.20.3",
@@ -28,7 +30,7 @@
     "glslify": "^6.1.0",
     "nodemon": "^1.14.12",
     "uglify-js": "^3.3.9",
-    "watchify": "^3.10.0"
+    "watchify": "^3.11.1"
   },
   "browserify": {
     "transform": [

@@ -46535,13 +46535,13 @@ module.exports = function (THREE) {
 };
 
 },{}],4:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var _scene = require('./scene');
+var _scene = require("./scene");
 
 var _scene2 = _interopRequireDefault(_scene);
 
-var _three = require('three');
+var _three = require("three");
 
 var THREE = _interopRequireWildcard(_three);
 
@@ -46558,86 +46558,96 @@ var id = void 0;
 var instances = [];
 var clients = new Object();
 
-glScene.on('userMoved', function () {
-  socket.emit('move', [glScene.camera.position.x, glScene.camera.position.y, glScene.camera.position.z]);
-});
+// glScene.on('userMoved', ()=>{
+//   socket.emit('move', [glScene.camera.position.x, glScene.camera.position.y, glScene.camera.position.z]);
+// });
 
-//On connection server sends the client his ID
-socket.on('introduction', function (_id, _clientNum, _ids) {
+// //On connection server sends the client his ID
+// socket.on('introduction', (_id, _clientNum, _ids)=>{
 
-  for (var i = 0; i < _ids.length; i++) {
-    if (_ids[i] != _id) {
-      clients[_ids[i]] = {
-        mesh: new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshNormalMaterial())
+//   for(let i = 0; i < _ids.length; i++){
+//     if(_ids[i] != _id){
+//       clients[_ids[i]] = {
+//         mesh: new THREE.Mesh(
+//           new THREE.BoxGeometry(1,1,1),
+//           new THREE.MeshNormalMaterial()
+//         )
+//       }
 
-        //Add initial users to the scene
-      };glScene.scene.add(clients[_ids[i]].mesh);
-    }
-  }
+//       //Add initial users to the scene
+//       glScene.scene.add(clients[_ids[i]].mesh);
+//     }
+//   }
 
-  console.log(clients);
+//   console.log(clients);
 
-  id = _id;
-  console.log('My ID is: ' + id);
-});
+//   id = _id;
+//   console.log('My ID is: ' + id);
 
-socket.on('newUserConnected', function (clientCount, _id, _ids) {
-  console.log(clientCount + ' clients connected');
-  var alreadyHasUser = false;
-  for (var i = 0; i < Object.keys(clients).length; i++) {
-    if (Object.keys(clients)[i] == _id) {
-      alreadyHasUser = true;
-      break;
-    }
-  }
-  if (_id != id && !alreadyHasUser) {
-    console.log('A new user connected with the id: ' + _id);
-    clients[_id] = {
-      mesh: new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshNormalMaterial())
+// });
 
-      //Add initial users to the scene
-    };glScene.scene.add(clients[_id].mesh);
-  }
-});
+// socket.on('newUserConnected', (clientCount, _id, _ids)=>{
+//   console.log(clientCount + ' clients connected');
+//   let alreadyHasUser = false;
+//   for(let i = 0; i < Object.keys(clients).length; i++){
+//     if(Object.keys(clients)[i] == _id){
+//       alreadyHasUser = true;
+//       break;
+//     }
+//   }
+//   if(_id != id && !alreadyHasUser){
+//     console.log('A new user connected with the id: ' + _id);
+//     clients[_id] = {
+//       mesh: new THREE.Mesh(
+//         new THREE.BoxGeometry(1,1,1),
+//         new THREE.MeshNormalMaterial()
+//       )
+//     }
 
-socket.on('userDisconnected', function (clientCount, _id, _ids) {
-  //Update the data from the server
-  document.getElementById('numUsers').textContent = clientCount;
+//     //Add initial users to the scene
+//     glScene.scene.add(clients[_id].mesh);
+//   }
 
-  if (_id != id) {
-    console.log('A user disconnected with the id: ' + _id);
-    glScene.scene.remove(clients[_id].mesh);
-    delete clients[_id];
-  }
-});
+// });
 
-socket.on('connect', function () {});
+// socket.on('userDisconnected', (clientCount, _id, _ids)=>{
+//   //Update the data from the server
+//   document.getElementById('numUsers').textContent = clientCount;
 
-//Update when one of the users moves in space
-socket.on('userPositions', function (_clientProps) {
-  // console.log('Positions of all users are ', _clientProps, id);
-  // console.log(Object.keys(_clientProps)[0] == id);
-  for (var i = 0; i < Object.keys(_clientProps).length; i++) {
-    if (Object.keys(_clientProps)[i] != id) {
+//   if(_id != id){
+//     console.log('A user disconnected with the id: ' + _id);
+//     glScene.scene.remove(clients[_id].mesh);
+//     delete clients[_id];
+//   }
+// });
 
-      //Store the values
-      var oldPos = clients[Object.keys(_clientProps)[i]].mesh.position;
-      var newPos = _clientProps[Object.keys(_clientProps)[i]].position;
+// socket.on('connect', ()=>{});
 
-      //Create a vector 3 and lerp the new values with the old values
-      var lerpedPos = new THREE.Vector3();
-      lerpedPos.x = THREE.Math.lerp(oldPos.x, newPos[0], 0.3);
-      lerpedPos.y = THREE.Math.lerp(oldPos.y, newPos[1], 0.3);
-      lerpedPos.z = THREE.Math.lerp(oldPos.z, newPos[2], 0.3);
+// //Update when one of the users moves in space
+// socket.on('userPositions', _clientProps =>{
+//   // console.log('Positions of all users are ', _clientProps, id);
+//   // console.log(Object.keys(_clientProps)[0] == id);
+//   for(let i = 0; i < Object.keys(_clientProps).length; i++){
+//     if(Object.keys(_clientProps)[i] != id){
 
-      //Set the position
-      clients[Object.keys(_clientProps)[i]].mesh.position.set(lerpedPos.x, lerpedPos.y, lerpedPos.z);
-    }
-  }
-});
+//       //Store the values
+//       let oldPos = clients[Object.keys(_clientProps)[i]].mesh.position;
+//       let newPos = _clientProps[Object.keys(_clientProps)[i]].position;
+
+//       //Create a vector 3 and lerp the new values with the old values
+//       let lerpedPos = new THREE.Vector3();
+//       lerpedPos.x = THREE.Math.lerp(oldPos.x, newPos[0], 0.3);
+//       lerpedPos.y = THREE.Math.lerp(oldPos.y, newPos[1], 0.3);
+//       lerpedPos.z = THREE.Math.lerp(oldPos.z, newPos[2], 0.3);
+
+//       //Set the position
+//       clients[Object.keys(_clientProps)[i]].mesh.position.set(lerpedPos.x, lerpedPos.y, lerpedPos.z);
+//     }
+//   }
+// });
 
 },{"./scene":5,"three":2}],5:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -46645,15 +46655,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _three = require('three');
+var _three = require("three");
 
 var THREE = _interopRequireWildcard(_three);
 
-var _fpscontrols = require('./fpscontrols');
+var _fpscontrols = require("./fpscontrols");
 
 var _fpscontrols2 = _interopRequireDefault(_fpscontrols);
 
-var _eventEmitterEs = require('event-emitter-es6');
+var _eventEmitterEs = require("event-emitter-es6");
 
 var _eventEmitterEs2 = _interopRequireDefault(_eventEmitterEs);
 
@@ -46676,20 +46686,19 @@ var Scene = function (_EventEmitter) {
   _inherits(Scene, _EventEmitter);
 
   function Scene() {
-    var domElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.getElementById('gl_context');
+    var domElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.getElementById("gl_context");
 
     var _width = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window.innerWidth;
 
     var _height = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : window.innerHeight;
 
     var hasControls = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-    var clearColor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'black';
+    var clearColor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "black";
 
     _classCallCheck(this, Scene);
 
     //THREE scene
     var _this = _possibleConstructorReturn(this, (Scene.__proto__ || Object.getPrototypeOf(Scene)).call(this));
-
     //Since we extend EventEmitter we need to instance it from here
 
 
@@ -46699,8 +46708,16 @@ var Scene = function (_EventEmitter) {
     _this.width = _width;
     _this.height = _height;
 
-    //THREE Camera
-    _this.camera = new THREE.PerspectiveCamera(50, _this.width / _this.height, 0.1, 1000);
+    // THREE Camera
+    _this.camera = new THREE.PerspectiveCamera(75, _this.width / _this.height, 0.1, 1000);
+    // var camera = new THREE.PerspectiveCamera(
+    //   4,
+    //   window.innerWidth / window.innerHeight,
+    //   0.1,
+    //   1000
+    // );
+
+    // // this.scene.add(camera);
 
     //THREE WebGL renderer
     _this.renderer = new THREE.WebGLRenderer({
@@ -46713,86 +46730,87 @@ var Scene = function (_EventEmitter) {
 
     //Push the canvas to the DOM
     domElement.append(_this.renderer.domElement);
+    // domElement.requestFullscreen();
 
-    if (hasControls) {
-      _this.controls = new THREE.FirstPersonControls(_this.camera, _this.renderer.domElement);
-      _this.controls.lookSpeed = 0.05;
-    }
+    // // if (hasControls) {
+    //   this.controls = new THREE.FirstPersonControls(
+    //     this.camera,
+    //     this.renderer.domElement
+    //   );
+    //   this.controls.lookSpeed = 0.05;
+    // }
 
     //Setup event listeners for events and handle the states
-    window.addEventListener('resize', function (e) {
-      return _this.onWindowResize(e);
-    }, false);
-    domElement.addEventListener('mouseenter', function (e) {
-      return _this.onEnterCanvas(e);
-    }, false);
-    domElement.addEventListener('mouseleave', function (e) {
-      return _this.onLeaveCanvas(e);
-    }, false);
-    window.addEventListener('keydown', function (e) {
-      return _this.onKeyDown(e);
-    }, false);
+    // window.addEventListener("resize", e => this.onWindowResize(e), false);
+    // domElement.addEventListener(
+    //   "mouseenter",
+    //   e => this.onEnterCanvas(e),
+    //   false
+    // );
+    // domElement.addEventListener(
+    //   "mouseleave",
+    //   e => this.onLeaveCanvas(e),
+    //   false
+    // );
+    // window.addEventListener("keydown", e => this.onKeyDown(e), false);
 
     _this.helperGrid = new THREE.GridHelper(10, 10);
     _this.helperGrid.position.y = -0.5;
     _this.scene.add(_this.helperGrid);
-    _this.clock = new THREE.Clock();
+    // this.clock = new THREE.Clock();
 
     _this.update();
-
     return _this;
   }
 
+  // drawUsers(positions, id) {
+  //   for (let i = 0; i < Object.keys(positions).length; i++) {
+  //     if (Object.keys(positions)[i] != id) {
+  //       this.users[i].position.set(
+  //         positions[Object.keys(positions)[i]].position[0],
+  //         positions[Object.keys(positions)[i]].position[1],
+  //         positions[Object.keys(positions)[i]].position[2]
+  //       );
+  //     }
+  //   }
+  // }
+
   _createClass(Scene, [{
-    key: 'drawUsers',
-    value: function drawUsers(positions, id) {
-      for (var i = 0; i < Object.keys(positions).length; i++) {
-        if (Object.keys(positions)[i] != id) {
-          this.users[i].position.set(positions[Object.keys(positions)[i]].position[0], positions[Object.keys(positions)[i]].position[1], positions[Object.keys(positions)[i]].position[2]);
-        }
-      }
-    }
-  }, {
-    key: 'update',
+    key: "update",
     value: function update() {
       var _this2 = this;
 
       requestAnimationFrame(function () {
         return _this2.update();
       });
-      this.controls.update(this.clock.getDelta());
-      this.controls.target = new THREE.Vector3(0, 0, 0);
+      // this.controls.update(this.clock.getDelta());
+      // this.controls.target = new THREE.Vector3(0, 0, 0);
       this.render();
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       this.renderer.render(this.scene, this.camera);
     }
-  }, {
-    key: 'onWindowResize',
-    value: function onWindowResize(e) {
-      this.width = window.innerWidth;
-      this.height = Math.floor(window.innerHeight - window.innerHeight * 0.3);
-      this.camera.aspect = this.width / this.height;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(this.width, this.height);
-    }
-  }, {
-    key: 'onLeaveCanvas',
-    value: function onLeaveCanvas(e) {
-      this.controls.enabled = false;
-    }
-  }, {
-    key: 'onEnterCanvas',
-    value: function onEnterCanvas(e) {
-      this.controls.enabled = true;
-    }
-  }, {
-    key: 'onKeyDown',
-    value: function onKeyDown(e) {
-      this.emit('userMoved');
-    }
+
+    // onWindowResize(e) {
+    //   this.width = window.innerWidth;
+    //   this.height = Math.floor(window.innerHeight - window.innerHeight * 0.3);
+    //   this.camera.aspect = this.width / this.height;
+    //   this.camera.updateProjectionMatrix();
+    //   this.renderer.setSize(this.width, this.height);
+    // }
+
+    // onLeaveCanvas(e) {
+    //   this.controls.enabled = false;
+    // }
+    // onEnterCanvas(e) {
+    //   this.controls.enabled = true;
+    // }
+    // onKeyDown(e) {
+    //   this.emit("userMoved");
+    // }
+
   }]);
 
   return Scene;
