@@ -3,10 +3,12 @@ import * as THREE from "three";
 
 import FirstPersonControls from "./fpscontrols";
 FirstPersonControls(THREE);
-
+// import OrbitControls from "three-orbit-controls";
+// OrbitControls(THREE);
 // Event emitter implementation for ES6
 import EventEmitter from "event-emitter-es6";
-
+import OrbitControls from "three-orbitcontrols";
+// OrbitControls(THREE);
 class Scene extends EventEmitter {
   constructor(
     domElement = document.getElementById("gl_context"),
@@ -32,6 +34,11 @@ class Scene extends EventEmitter {
       0.1,
       1000
     );
+    this.camera.position.z = 10;
+    this.camera.position.x = 40;
+    this.camera.position.y = 50;
+    this.camera.lookAt(this.scene.position);
+    this.camera.updateMatrixWorld();
     // var camera = new THREE.PerspectiveCamera(
     //   4,
     //   window.innerWidth / window.innerHeight,
@@ -50,8 +57,28 @@ class Scene extends EventEmitter {
 
     this.renderer.setSize(this.width, this.height);
 
+    // camera.position.set(0, 20, 100);
     //Push the canvas to the DOM
     domElement.append(this.renderer.domElement);
+
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.update();
+    var geometry = new THREE.SphereGeometry(5, 32, 32);
+    var material = new THREE.MeshBasicMaterial({
+      color: 0xffff00
+      // opacity: 0.1,
+      // blending: THREE.NormalBlending,
+      // depthTest: true
+    });
+    var sphere = new THREE.Mesh(geometry, material);
+
+    this.scene.add(sphere);
+    // var material = new THREE.MeshDepthMaterial({
+    //   opacity: 0.1,
+    //   blending: THREE.NormalBlending,
+    //   depthTest: true
+    // });
+
     // domElement.requestFullscreen();
 
     // // if (hasControls) {
@@ -98,6 +125,7 @@ class Scene extends EventEmitter {
 
   update() {
     requestAnimationFrame(() => this.update());
+    this.controls.update();
     // this.controls.update(this.clock.getDelta());
     // this.controls.target = new THREE.Vector3(0, 0, 0);
     this.render();
