@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
 //////EXPRESS////////
-const express = require("express");
+const express = require('express');
 const app = express();
 
 ////////HTTP/////////
-const http = require("http").createServer(app);
+const http = require('http').createServer(app);
 
 //Port and server setup
 const port = process.env.PORT || 1989;
@@ -14,23 +14,23 @@ const port = process.env.PORT || 1989;
 const server = app.listen(port);
 
 //Console the port
-console.log("Server is running localhost on port: " + port);
+console.log('Server is running localhost on port: ' + port);
 
 /////SOCKET.IO///////
-const io = require("socket.io").listen(server);
+const io = require('socket.io').listen(server);
 
 ////////EJS//////////
-const ejs = require("ejs");
+const ejs = require('ejs');
 
 //Setup the views folder
-app.set("views", __dirname + "/views");
+app.set('views', __dirname + '/views');
 
 //Setup ejs, so I can write HTML(:
-app.engine(".html", ejs.__express);
-app.set("view-engine", "html");
+app.engine('.html', ejs.__express);
+app.set('view-engine', 'html');
 
 //Setup the public client folder
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + '/public'));
 
 let clients = {};
 
@@ -77,11 +77,15 @@ let clients = {};
 /////////////////////
 
 //Client view
-app.get("/", (req, res) => {
-  res.render("index.html");
+app.get('/', (req, res) => {
+	res.render('index.html');
+});
+
+app.get('/home', (req, res) => {
+	res.render('home.html');
 });
 
 //404 view
-app.get("/*", (req, res) => {
-  res.render("404.html");
+app.get('/*', (req, res) => {
+	res.render('404.html');
 });

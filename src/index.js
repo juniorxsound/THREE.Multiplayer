@@ -1,14 +1,16 @@
-import Scene from "./scene";
-import * as THREE from "three";
+import Scene from './scene';
+import HomeScene from './homeScreen';
+import * as THREE from 'three';
 
 //A socket.io instance
 const socket = io();
 
 //One WebGL context to rule them all !
-let glScene = new Scene();
+// let glScene = new Scene();
 let id;
 let instances = [];
 let clients = new Object();
+let homeScene = new HomeScene();
 
 // glScene.on('userMoved', ()=>{
 //   socket.emit('move', [glScene.camera.position.x, glScene.camera.position.y, glScene.camera.position.z]);

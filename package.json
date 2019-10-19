@@ -21,7 +21,8 @@
     "socket.io": "^2.0.4",
     "three": "^0.109.0",
     "three-orbit-controls": "^82.1.0",
-    "three-orbitcontrols": "^2.108.1"
+    "three-orbitcontrols": "^2.108.1",
+    "three.interaction": "^0.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
