@@ -1,6 +1,8 @@
 # THREE Multiplayer
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
+> Looking for a React three fiber multiplayer template? check out [R3F.Multiplayer](https://github.com/juniorxsound/R3F.Multiplayer)
+
 My boilerplate Node.js server and client setup for Three.js multiplayer projects using Socket.io
 - [Installation](#installation)
 - [Usage](#usage)
