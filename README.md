@@ -14,10 +14,12 @@ My boilerplate Node.js server and client setup for Three.js multiplayer projects
 1. Clone the repo, e.g ```git clone https://github.com/juniorxsound/THREE-Multiplayer.git```
 1. Run ```npm install``` to install all the dependencies
 
-> Tested on macOS 10.13.3 using Node.js v8.9.3 and npm v5.6.0
+~~> Tested on macOS 10.13.3 using Node.js v8.9.3 and npm v5.6.0~~
+Tested on Windows 10 using Node.js 16.17.0 and npm 8.15.0 
 
 ## Usage
-Use ```npm run start``` to start the server and bundler
+Use ```npm run buildall``` to build the necessary bundler.js and copy socket.io.js in public folder
+Use ```npm run start``` to start the server 
 
 ![NPM](https://github.com/juniorxsound/THREE-Multiplayer/blob/master/resources/run_start.gif)
 
@@ -27,7 +29,7 @@ The start script launches:
 
 ![Server Log](https://github.com/juniorxsound/THREE-Multiplayer/blob/master/resources/Logs.png)
 
-On connection each client recives it's uniqe ID and on every movement broadcasts to all the other clients all the locations of everyone connected
+On connection each client receives it's uniqe ID and on every movement broadcasts to all the other clients all the locations of everyone connected
 ```js
 {
   'some-user-id': {
