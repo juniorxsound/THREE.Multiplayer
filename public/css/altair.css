@@ -1,0 +1,1546 @@
+/* ========= define variables =================*/
+:root {
+    /* light theme colors */
+    --text-for-light: dimgrey;
+    --bkg-for-light: whitesmoke;
+    --bars-for-light: lightgrey;
+    --vptext-for-light: black;
+
+
+    /* dark theme colors */
+    --text-for-dark: lightgrey;
+    --bkg-for-dark: black;
+    --bars-for-dark: dimgrey;
+    --transparent-for-dark: rgba(0,0,0,0.5);
+
+}
+
+/* ======== All movable headers for changing the position of UI elements ===== */
+
+.movableHeader{
+    padding: 5px 5px 0 5px;
+    height: 25px;
+    cursor: move;
+    z-index: 1;
+    background-color: #2196F3;
+    color: #fff;
+}
+
+.movableCloseHeader{
+    width: 30px;
+    text-align: center;
+    padding: 5px 5px 0 5px;
+    height: 25px;
+    z-index: 1;
+    background-color: #2196F3;
+    color: #fff;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor:pointer;
+}
+
+/* =============== Menubar ========================== */
+#menubar{
+    z-index:2;
+}
+
+
+
+/*================= Viewport Editor ============= */
+.viewport {
+    position: absolute;
+    top: 112px;
+    left: 0;
+    right: 0; /* ToDo: Change to 300 if you want the original sidebar */
+    bottom: 32px;
+}
+
+.viewport #info {
+
+    /*pointer-events: none;*/
+}
+
+
+.TabbedPanel .Panels {
+    height: 94% !important;
+}
+
+/* =================== Sidebar ================= */
+.sidebar {
+
+    display:none;  /* ToDo: Change to '' if you want the original sidebar */
+    width: 0;    /* ToDo: Change to 300px if you want the original sidebar */
+
+    position: revert !important;
+    margin-left: auto !important;
+    margin-top: 32px;
+    height: 100%;
+    /*top:0px !important;*/
+    right: 0;
+    top: 32px;
+    bottom: 0;
+
+    overflow: auto;
+}
+
+.sidebar .Panel {
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+
+.sidebar .Panel.collapsed {
+    margin-bottom: 0;
+}
+
+.sidebar .Row {
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    margin-bottom: 10px;
+}
+
+#menubar .menu.right {
+    width: 30%;
+}
+
+
+
+
+
+/* =========== Toolbar ============== */
+.toolbar {
+    width: 5% !important;
+    max-width: 32px !important;
+    padding: 0%;
+    max-height: 140px;
+    top: 80% !important;
+}
+
+.toolbar > button {
+    width: 100% !important;
+    padding: 1%;
+    max-width: 32px !important;
+    transition-duration: 0.4s;
+}
+
+.toolbar > button > img {
+    width: 50% !important;
+    padding: 5%;
+}
+
+/*============= Toolbar Animation ==============*/
+.toolbarAnimation {
+    width: 5% !important;
+    max-width: 32px !important;
+    padding: 0;
+    max-height: 140px;
+    top: 90% !important;
+}
+
+/*============= Toolbar Adv ===================*/
+#toolbarAdv {
+    position: absolute;
+    left: 10px;
+    top: 210px;
+    width: 34px;
+    max-width: 34px !important;
+    background: #eee;
+    text-align: center;
+}
+
+#toolbarAdv button,
+#toolbarAdv input {
+    height: 34px;
+    width: 34px !important;
+    max-width: 34px !important;
+    padding: 0px;
+    transition-duration: 0.4s;
+}
+
+.advToolbarImg:active{
+    -webkit-filter: drop-shadow(0px 0px 5px rgba(255, 242, 0, 0.82));
+    filter: drop-shadow(0px 0px 5px rgba(255, 242, 0, 0.82)););
+}
+
+#toolbarAdv button img {
+    width: 16px;
+    opacity: 0.5;
+}
+
+.toolbarAdvBtPressed {
+    background: black;
+}
+
+
+
+/*================ PhotosBar ================= */
+.photosBar {
+    position:absolute;
+    top:20%;
+    left:10%;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 1;
+}
+
+
+
+#photosBarHeader {
+    max-width: 800px;
+}
+
+
+
+
+#photosBarCloseHeader {
+
+}
+
+#photosBarCloseHeader:active{
+    background: #2fa1d6;
+}
+
+#photosBarResizableDiv {
+    height: 190px;
+    width: 100%;
+    max-width: 800px;
+    overflow: auto;
+    resize: both;
+    z-index: 1;
+    background: var(--transparent-for-dark);
+}
+
+.photoTakenContainer{
+    position: relative;
+    height: 75%;
+    display: inline-block;
+    max-height: 140px;
+    background: var(--text-for-dark);
+    margin: 5px;
+    padding: 5px;
+    opacity: 1 !important;
+}
+
+.photoTaken{
+    height: 85%;
+    width: 100%;
+    max-height: 140px;
+    background: var(--text-for-dark);
+    display:block;
+}
+
+.photoDescription {
+    font-size: small;
+    max-width: 200px;
+    margin: 1px 1px 4px;
+    padding: 2px;
+    left:0;
+    background: var(--bars-for-dark);
+    display:block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: 1em;
+    white-space: nowrap;
+
+}
+
+/* Button for full screen image */
+.overlayImgBt {
+    position: absolute;
+    top: 27px;
+    background: var(--transparent-for-dark);
+    color: var(--text-for-dark);
+    width: -webkit-fill-available;
+    transition: .5s ease;
+    opacity:0;
+    font-size: small;
+    padding: 2px;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.overlayImgBt:hover{ cursor:pointer; background: var(--bkg-for-dark) }
+.overlayImgBt:active{ background:grey}
+
+.photoTakenContainer:hover .overlayImgBt {
+    opacity: 1;
+}
+
+/* Delete Image Button */
+.overlayDelete {
+    position:absolute;
+    background: var(--transparent-for-dark);
+    color: var(--text-for-dark);
+    width: -webkit-fill-available;
+    width: -moz-available;
+    transition: .5s ease;
+    opacity: 0;
+    font-size: small;
+    padding: 2px;
+    margin-right: 5px;
+    text-align: center;
+    bottom: 2px;
+
+}
+
+.overlayDelete:hover{ cursor:pointer; background: var(--bkg-for-dark) }
+.overlayDelete:active{ background:grey}
+
+.photoTakenContainer:hover .overlayDelete {
+    opacity: 1;
+}
+
+
+/* Delete Image Button */
+.overlayDownload {
+    position:absolute;
+    background: var(--transparent-for-dark);
+    color: var(--text-for-dark);
+    width: -webkit-fill-available;
+    width: -moz-available;
+    transition: .5s ease;
+    opacity: 0;
+    font-size: small;
+    padding: 2px;
+    margin-right: 5px;
+    text-align: center;
+    top: 47px;
+    text-decoration: none;
+}
+
+.overlayDownload:hover{ cursor:pointer; background: var(--bkg-for-dark) }
+.overlayDownload:active{ background:grey}
+
+.photoTakenContainer:hover .overlayDownload {
+    opacity: 1;
+}
+
+
+
+
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 3; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 32px;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+/* Caption of Modal Image */
+#captionModal {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation */
+.modal-content, #captionModal {
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)}
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)}
+    to {transform:scale(1)}
+}
+
+
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
+
+
+/* The Close Modal Button */
+.closeModal {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.closeModal:hover,
+.closeModal:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+/* ------- Tooltip for showing Indices / vertices ----- */
+#tooltip {
+    position: fixed;
+    left: 0;
+    top: 0;
+    min-width: 10px;
+    text-align: center;
+    padding: 3px 3px;
+    font-size: small;
+    font-family: 'Roboto Mono', monospace;
+    background: var(--bars-for-dark);
+    color: var(--text-for-dark);
+    display: none;
+    opacity: 0;
+    border: 1px solid var(--bkg-for-dark);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+    transition: opacity 0.25s linear;
+    border-radius: 0;
+}
+
+
+/*------------ Help tips menu --------------------*/
+.HelpTipsPerformanceListStyle {
+    text-align: left;
+    line-height: 2em;
+    font-size: large;
+    }
+
+
+
+
+/* ============= Menu ==================== */
+#menubar .menu .options {
+    width: revert !important;
+}
+
+/* =============== Outliner =============== */
+#outliner {
+    height: 300px;
+    resize: both;
+    overflow: scroll;
+}
+
+#outliner .opener {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin: 0 4px;
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+#outliner .opener.open:after {
+    content: 'v' !important;
+}
+
+#outliner .opener.closed:after {
+    content: '>' !important;
+}
+
+
+#outliner .type:after {
+    content: '▮' !important;
+}
+
+.resizableDiv {
+    /*resize: horizontal;*/
+    /*overflow: hidden;*/
+    vertical-align: middle;
+    display: inline-block;
+    /*min-width: 25px !important;*/
+    width: 70% !important;
+}
+
+.icon-object {
+    font-size: 9pt;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.outliner-checkbox {
+    margin: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.resizableDiv input {
+    font-size: 9pt;
+}
+
+.color-icon {
+    font-size: 10pt;
+}
+
+.geometry-icon {
+    margin-left: 6pt;
+    font-size: 5pt;
+}
+
+.resizableDiv.medium {
+    width: 15px;
+    min-width: 15px;
+}
+
+.resizableDiv.small {
+    width: 20px;
+    min-width: 15px;
+}
+
+.resizableDiv.small.table-body-cell {
+    min-width: 10px;
+}
+
+.resizableDiv.small input {
+    text-indent: 3px;
+    margin-left: 6px;
+}
+
+.resizableDiv.medium input {
+    text-indent: 3px;
+    margin-left: 4px;
+}
+
+.icon-object.skew {
+    transform: skew(.312rad);
+    padding-left: 15px;
+}
+
+.resp-table-row {
+    display: table-row;
+    width: 100%;
+}
+
+.table-body-cell {
+    display: table-cell;
+}
+
+.resizableDiv input {
+    width: 90%;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48
+}
+
+.sidebar .Panel {
+    border-top: 1px solid #222;
+}
+
+.sidebar .Panel.Material canvas {
+    border: solid 1px #5A5A5A;
+}
+
+/* ================= Resizer of sidebar ================ */
+.resizerSidebar {
+    position: absolute;
+    top: 32px;
+    right: 0px;    /* ToDo: Change to 295px if you want the original sidebar */
+    width: 5px;
+    bottom: 0px;
+    background-color: rgba(125, 125, 125, 0.5);
+    cursor: col-resize;
+    z-index: 1;
+}
+
+@media all and ( max-width: 600px ) {
+
+    .resizerSidebar {
+        display: none;
+    }
+}
+
+/*============= Responsiveness =================*/
+@media all and ( max-width: 600px ) {
+
+    .sidebar {
+        left: 0;
+        width: 100%;
+        top: calc(100% - 320px);
+        bottom: 0;
+
+    }
+
+    .viewport {
+        left: 0;
+        right: 0;
+        top: 112px;
+        height: calc(100% - 352px);
+    }
+}
+
+/*============== Light mode ================ */
+
+
+.light-mode #menubar {
+    color: var(--text-for-light);
+    background: var(--bkg-for-light);
+}
+
+.light-mode .sidebar{
+    background: var(--bkg-for-light);
+    color: var(--text-for-light);
+}
+
+.light-mode .sidebar .Panel {
+    color: var(--text-for-light);
+    background: var(--bkg-for-light);
+}
+
+.light-mode .sidebar {
+    background-color: var(--bkg-for-light);
+}
+
+.light-mode .sidebar .Panel {
+    border-top: 1px solid var(--text-for-light);
+}
+
+.light-mode .sidebar .Panel.Material canvas {
+    border: solid 1px var(--bkg-for-light);
+}
+
+/* Statistics for vertices, tris */
+.light-mode .infoStatistics {
+    color: var(--vptext-for-light);
+}
+
+.light-mode .TabbedPanel .Tabs {
+    background-color: var(--bkg-for-light);
+}
+
+.light-mode .TabbedPanel .Tab.selected {
+    color: var(--text-for-light);
+    background-color: var(--bkg-for-light);
+}
+
+.light-mode .TabbedPanel .Tab {
+    color: var(--text-for-light);
+    background-color: var(--bars-for-light);
+}
+
+.light-mode .viewportBrowserWrapper {
+    background-color: var(--bars-for-light);
+}
+
+    /* = ======== select ===================*/
+.light-mode select {
+    color: var(--text-for-light);
+    background-color: var(--bars-for-light);
+}
+
+.light-mode .Outliner{
+    color: var(--text-for-light);
+    background-color: var(--bars-for-light);
+}
+
+.light-mode button{
+    color: var(--text-for-light);
+    background-color: var(--bars-for-light);
+}
+
+.light-mode #toolbar button img {
+    filter: contrast(1);
+}
+
+.light-mode #toolbarAdv button img {
+    filter: contrast(1);
+}
+
+
+
+
+.light-mode input, textarea {
+    color: var(--text-for-light);
+    background-color: var(--bars-for-light);
+    accent-color: var(--vptext-for-light);
+}
+
+
+.light-mode #toolbar{
+    color: var(--text-for-light);
+    background-color: var(--text-for-light);
+}
+
+.light-mode #toolbarAdv{
+    color: var(--text-for-light);
+    background-color: var(--text-for-light);
+}
+
+.light-mode .viewport #info {
+    text-shadow: 1px 1px 0 rgba(200, 200, 200, 0.25);
+}
+
+.light-mode div {
+    color-scheme:light;
+}
+
+
+.light-mode #menubar .menu .options hr {
+    border-color: var(--bars-for-light);
+}
+
+.light-mode #menubar .menu .options {
+    background-color: var(--bars-for-light);
+}
+
+.light-mode #menubar .menu .options .option {
+    color: var(--text-for-light);
+    background-color: var(--bars-for-light);
+}
+
+.light-mode #menubar .menu .options .option:hover{
+    color: var(--text-for-dark);
+    background-color: var(--bars-for-dark);
+}
+
+.light-mode #menubar .menu .options .option:active {
+    color: var(--text-for-light);
+    background: transparent;
+}
+
+.light-mode #menubar .menu .options .inactive {
+    color: var(--bkg-for-dark);
+    background-color: transparent;
+}
+
+.light-mode .icon-object{
+    color: var(--text-for-light);
+}
+
+.light-mode #outliner .opener {
+    color: var(--text-for-light);
+}
+
+/* Dark mode */
+/* ======== If user prefers dark interface ==================== */
+@media ( prefers-color-scheme: dark ) {
+
+    /* =================== Sidebar ================= */
+    .sidebar .Panel {
+        color: var(--text-for-dark);
+    }
+
+    .sidebar {
+        background-color: var(--bkg-for-dark);
+    }
+
+    #menubar {
+        background: var(--bkg-for-dark);
+    }
+
+    /* ======= Statistics for vertices, tris ============== */
+    .infoStatistics {
+        color: var(--text-for-dark);
+    }
+
+    /* ============= Tabs ======================= */
+    .TabbedPanel .Tabs {
+        background-color: var(--bars-for-dark);
+    }
+
+    .TabbedPanel .Tab.selected {
+        color: var(--text-for-dark);
+        background-color: var(--bkg-for-dark);
+    }
+
+    .TabbedPanel .Tab {
+        color: var(--text-for-dark);
+        background-color: var(--bars-for-dark);
+    }
+
+
+
+    /* = ======== select ===================*/
+    select {
+        color: var(--text-for-dark);
+        background-color: var(--bars-for-dark);
+    }
+
+    .Outliner {
+        color: var(--text-for-dark);
+        background-color: var(--bars-for-dark);
+    }
+
+    button{
+        color: var(--text-for-dark);
+        background-color: var(--bars-for-dark);
+    }
+
+    #toolbar button img {
+        /*filter: contrast(1);*/
+    }
+
+    #toolbarAdv {
+        background-color: #111;
+    }
+
+    #toolbarAdv img {
+        filter: invert(1);
+    }
+
+
+    input, textarea {
+        color: var(--text-for-dark);
+        background-color: var(--bars-for-dark);
+        accent-color: var(--text-for-dark);
+    }
+
+    .viewport #info {
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+    }
+
+    div {
+        color-scheme:dark;
+    }
+
+    .icon-object{
+        color: var(--bkg-for-dark);
+    }
+
+     #outliner .opener {
+        color: var(--bkg-for-dark);
+    }
+}
+
+
+
+/* for parallel */
+#webHPV_body {
+    margin-top: 0px;
+    margin-left: 0px;
+    overflow: hidden;
+}
+
+/*================= Inside windows =======================*/
+#info1 {
+    z-index: 1;
+    position: relative;
+    display: block;
+    width: 80%;
+    left: 35%;
+    text-align: left;
+    font-size: small;
+    /*box-sizing: border-box;*/
+    /* -moz-user-select: none;*/
+    /*-webkit-user-select: none;*/
+    /*-ms-user-select: none;*/
+    /*user-select: none;*/
+    /*pointer-events: none;*/
+}
+
+#timeReport {
+    z-index: 1;
+    position: relative;
+    left: 0;
+    width: 500px;
+    margin-top: 0px;
+    zoom: 0.5;
+
+}
+
+.report_text_console {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 200px;
+    padding: 5px;
+    background: #999999;
+    opacity: 0.5;
+    transition: 1s opacity;
+    color: black;
+    resize: both;
+}
+
+.report_text_console.fade-in {
+    opacity: 0.5;
+}
+
+.report_text_console.fade-out {
+    opacity: 0;
+}
+
+
+/*table {*/
+/*    font-family: arial, sans-serif;*/
+/*    border-collapse: collapse;*/
+/*    !*z-index: 10000;*!*/
+/*    !*width: 100%;*!*/
+/*}*/
+/*th{*/
+/*    border: 1px solid #dddddd;*/
+/*    text-align: left;*/
+/*    padding: 5px;*/
+/*}*/
+/*td{*/
+/*	border: 1px solid #dddddd;*/
+/*	!*text-align: left;*!*/
+/*	padding: 5px;*/
+/*	!*width:50px;*!*/
+/*}*/
+/*th, td:nth-of-type(1){*/
+/*    !*width:20px !important;*!*/
+/*    text-align: center;*/
+/*}*/
+/*th, td:nth-of-type(2){*/
+/*    text-align: center;*/
+/*}*/
+/*tr:nth-child(even) {*/
+/*    background-color: #333;*/
+/*}*/
+/* ============ Loading Screen ================*/
+.difftotal {
+    position: absolute;
+    visibility: hidden;
+    left: 50%;
+    top: 50%;
+    text-align: right;
+    width: 70px;
+    padding: 5px;
+    border-radius: 3px;
+    transform: translate(-50%, -50%);
+    background: grey;
+    color: white;
+}
+
+#loading-screen {
+    position: absolute;
+    display: flex;
+    z-index: 1;
+    top: 0;
+    /*right: 0;*/
+    left: 50%;
+    /*bottom: 0;*/
+    width: 20%;
+    height: 15%;
+    transform: translate(-50%, 0%);
+    background-color: #000000;
+    opacity: 0;
+    transition: 1s opacity;
+}
+
+#loading-screen.fade-in {
+    opacity: 0.5;
+}
+
+#loading-screen.fade-out {
+    opacity: 0;
+}
+
+#loaderSpin {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 95px;
+    height: 95px;
+    margin: -55px 0 0 -50px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #dbd670;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+#loaderSpin:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #d35555;
+    -webkit-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite;
+}
+
+#loaderSpin:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #0048ff;
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+.mbs_div {
+    position: absolute;
+    display: flex;
+    font-size: x-small;
+    left: 50%;
+    top: 7%;
+    z-index: 1;
+    width: 50px;
+    transform: translate(-50%, -50%);
+    color: whitesmoke;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+}
+
+
+/* ============ Dat gui ================== */
+#datgui {
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: 0;
+    width: 30%;
+    max-width: 200px;
+    z-index: 1;
+}
+
+/*============ Div of Canvas =============== */
+.divOfCanvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+
+/*================ Stats fps ================= */
+.statsMe {
+    position: absolute;
+    transition: 1s opacity;
+    zoom: 1.25;
+    bottom: 0%;
+    width: clamp(0px, 30%, 80px);
+    /*max-width: 80px;*/
+    z-index: 1;
+
+}
+
+.statsMe > canvas {
+    width: 100% !important;
+}
+
+
+.statsMe.fade-in {
+    opacity: 1;
+}
+
+.statsMe.fade-out {
+    opacity: 0;
+}
+
+.statistic {
+    position: absolute;
+    left: 10px;
+    z-index: 2;
+    font-size: small;
+    color: whitesmoke;
+}
+
+
+
+/*============= Windows =================*/
+.globalcontainer {
+    /*display: block;*/
+    position: absolute;
+
+    /* Misc */
+    /*border: 1px solid #cbd5e0;*/
+    height: 100%;
+    width: 100%;
+}
+
+.container__left {
+    width: 49.5%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.resizerWindow {
+    background-color: #cbd5e0;
+    cursor: ew-resize;
+    height: 100%;
+    width: 1%;
+    z-index: 2;
+}
+
+.container__right {
+    /* Take the remaining width */
+    flex: 1;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#resizer_right_container {
+
+}
+/* --------------------- ColorMap Legend ------------------------ */
+.legendContainer{
+    position: absolute;
+    text-align: left;
+    left: 55px;
+    top: 20%;
+    transform: translate(0, -22%);
+    /*top: 177px;*/
+    width: 135px;
+    /*height: 360px;*/
+    background: var(--bars-for-dark);
+    color: var(--text-for-dark);
+}
+
+.colormap{
+    position: absolute;
+    text-align: left;
+    left: 5px;
+    top: 69px;
+    /*background: red;*/
+    /*color: green;*/
+}
+
+.legendColormapOrdinate{
+    margin-left: 35px;
+    position: absolute;
+}
+
+.titleLegendColor{
+    margin-top: 1px;
+    margin-left:5px;
+    position: absolute;
+}
+
+.colormapSelector{
+    position: absolute;
+    left: 5px;
+    bottom: 2px;
+    width: 90px;
+    padding: 2px;
+    border: 1px solid;
+    color:var(--text-for-dark);
+    background: var(--bars-for-dark);
+    border-color: var(--bkg-for-dark);
+}
+
+.colormapSelectNBins{
+    position: absolute;
+    right: 2px;
+    bottom: 0;
+    width: 43px;
+    padding: 2px;
+    margin-bottom: 2px !important;
+    border: 1px solid;
+    color:var(--text-for-dark);
+    background: var(--bars-for-dark);
+    border-color: var(--bkg-for-dark);
+}
+
+
+.viewportResultsSelector{
+    position: absolute;
+    left: 5%;
+    top: 10px;
+    width: 15%;
+    padding: 1%;
+    z-index: 2;
+}
+
+.cameraSelect{
+    display:none; /* ToDo: Delete if you want CameraSelect */
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 20%;
+    padding: 1%;
+    min-width: 0 !important;
+}
+
+.viewportModeSelector{
+    position: absolute;
+    right: 1%;
+    top: 15px;
+    width: 10%;
+    padding: 1%;
+    z-index: 2;
+    /*min-width: 0 !important;*/
+}
+
+
+
+/*------- New Browser ------------*/
+.viewportBrowserWrapper {
+    visibility:hidden;
+    position:absolute;
+    z-index: 1;
+    width: 400px;
+    height: 300px;
+    left: 10%;
+    top: 30%;
+    border: 1px solid black;
+    overflow: auto;
+    resize: both;
+    background: var(--bars-for-dark);
+}
+
+
+.viewportBrowserCloseHeader{
+
+}
+
+
+
+.outlinerBrowser{
+    resize:none !important;
+    overflow: auto !important;
+    height:auto !important;
+    width:auto !important;
+}
+
+
+.outlinerHeaderTitle{
+    background: var(--bkg-for-dark);
+}
+
+/*============== Toolbar Horizontal Animation ============*/
+.toolbarHorizontalAnimation {
+    text-align: left;
+    /*height: 36px;*/
+    position: absolute;
+    max-width: none !important;
+    display: inline;
+    background: white;
+    left: 35%;
+    /*transform: translate(-50%, 0%);*/
+    /*bottom: 5%;*/
+    /*width: 620px !important;*/
+    background: var(--bars-for-dark);
+}
+
+.toolbarHorizontalAnimation button {
+    max-width: none !important;
+    vertical-align: top;
+}
+
+.toolbar button {
+    max-width: none !important;
+}
+
+.animationRow{
+    display:inline;
+    position:absolute;
+    padding:1px;
+    height:34px;
+    width:620px !important;
+    background: var(--bars-for-dark);
+    vertical-align: middle;
+}
+
+.textAnimation{
+    width:90px;
+    display:inline;
+    margin-left:15px;
+    text-align: left;
+    color: var(--text-for-dark) !important;
+}
+
+.animationFrameNumber{
+    width:30px;
+    height:30px;
+    display:inline;
+    text-align: center;
+    color: var(--text-for-dark) !important;
+}
+
+/*==== Sliders ===== */
+.sliderAnimation {
+    display:inline;
+    vertical-align: top !important;
+    margin-top: 6px !important;
+    margin-left:10px !important;
+}
+
+.slidersAnimationContainer {
+    display:inline-block;
+    width:320px;
+    vertical-align: inherit;
+}
+
+.sliderAnimationSpeed {
+    margin-top: 7px !important;
+    height: 2px !important;
+}
+
+.value {
+    font-size: 2em;
+    width:30px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    background-color: #bdc3c7;
+    height: 5px;
+    /*border-radius: 5px;*/
+    margin: 0 auto;
+    outline: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: var(--text-for-dark);
+    width: 30px;
+    height: 12px;
+    /*border-radius: 50%;*/
+    border: 2px solid var(--bars-for-dark);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+     background-color: var(--bars-for-dark);
+     border: 2px solid var(--text-for-dark);
+ }
+
+input[type="range"]::-webkit-slider-thumb:active {
+    transform: scale(1.2);
+}
+/* ==== End of Sliders ====== */
+
+
+
+input.Number{
+    color: var(--text-for-dark) !important;
+}
+
+.animationBt{
+    /*height: 36px !important;*/
+    padding: 1px;
+    margin-left: 4px;
+    margin-right: 2px;
+    padding-right:4px;
+    cursor: pointer;
+    width: 26px !important;
+    height: 24px !important;
+    vertical-align: middle !important;
+}
+
+.animationBt:disabled {
+    background: #999;
+    color: #555;
+    cursor: not-allowed;
+}
+
+
+.animationBtDiv{
+    width:26px !important;
+    height: 24px !important;
+    vertical-align: middle;
+}
+
+.animationBtImg{
+    padding-right:2px;
+}
+
+.animationSpeedIndicatorNumber{
+    display: inline-block;
+    position: inherit;
+    height: 18px;
+    width: 40px;
+    margin-top: 15px;
+}
+
+.animationDisplacementMultiplier{
+    display: inline-block;
+    position: inherit;
+    height: 18px;
+    width: 25px;
+    margin-top: 15px;
+    margin-left: 40px;
+}
+
+/* ====== Drag, Drop, Dock, Snap with jQuery ============ */
+
+/* ======= Statistics for vertices, tris ============== */
+.infoStatistics {
+    position: absolute;
+    bottom: 5%;
+    right: 2%;
+    z-index:2;
+}
+
+.infoStatistics > span {
+    font-size: 9pt !important;
+}
+
+/* The intermediate color when dragging something */
+.infoStatistics.ui-draggable-dragging { background: rgba(100, 100, 100, 0.5); }
+
+/* Droppable for Statistics Info */
+.infoDroppable{
+    position: absolute;
+    border-radius: 5px;
+    /*background: rgba(200, 100, 100, 0.5);*/
+    border: 1px dashed rgba(200, 200, 200, 0.5);
+    z-index: -1;
+}
+
+
+/* Droppable for Animation controls */
+.animationControlsDroppable{
+    position: absolute;
+    border-radius: 5px;
+    /*background: rgba(200, 100, 100, 0.5);*/
+    border: 1px dashed rgba(200, 200, 200, 0.5);
+    z-index: -1;
+}
+
+
+/*==== Overall Droppable on hover color =========== */
+.hoveredDroppable{
+    background: rgba(10, 10, 20, 0.7);
+}
+
+/*========== Upper Ribbon ================*/
+.upperRibbon{
+  width:100%;
+  height:80px;
+  position: absolute;
+    left:0;
+    top:32px;
+    background:var(--bars-for-dark);
+    z-index:1;
+    color: var(--text-for-dark);
+}
+
+.TabbedPanel .Tabs .Tab {
+    visibility: hidden;
+    color: var(--text-for-dark) !important;
+    text-transform: capitalize;
+}
+
+.upperRibbon .Tabs{
+    height: 32px;
+    text-transform: capitalize !important;
+}
+
+.upperRibbon .Tabs .selected{
+    color: var(--text-for-dark);
+    text-decoration: underline;
+}
+
+.ribbonButton{
+    height: 80px;
+    width: 120px;
+    position: absolute;
+    left: 20px;
+    background: transparent;
+}
+
+.ribbonBtDiv{
+    background: transparent;
+}
+
+.ribbonNewFile {
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.ribbonOpenFile {
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+}
+
+.ribbonContourPlot{
+    left:120px;
+}
+
+.ribbonBtDiv:active{
+    -webkit-filter: drop-shadow(0px 0px 5px rgba(255, 242, 0, 0.82));
+    filter: drop-shadow(0px 0px 5px rgba(255, 242, 0, 0.82)););
+}
+
+.permanentClicked{
+    -webkit-filter: drop-shadow(0px 0px 5px rgba(255, 242, 0, 0.82));
+    filter: drop-shadow(0px 0px 5px rgba(255, 242, 0, 0.82)););
+}
+/* =========== footer ================= */
+.footer{
+    width:100%;
+    height:32px;
+    position: absolute;
+    left:0;
+    bottom:0;
+    background:var(--bars-for-dark);
+    color: var(--text-for-dark);
+    z-index:1;
+    display: flex;
+    align-items: center;
+}
+
+.footerText{
+    margin-left:40px;
+    padding-right:15px;
+}
+
+.processesProgress{
+    height: 22px;
+}

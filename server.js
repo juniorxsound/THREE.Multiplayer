@@ -23,7 +23,7 @@ const io = require('socket.io').listen(server);
 const ejs = require('ejs');
 
 //Setup the views folder
-app.set("views", __dirname + '/views');
+app.set("views", __dirname + '/editor');
 
 //Setup ejs, so I can write HTML(:
 app.engine('.html', ejs.__express);
