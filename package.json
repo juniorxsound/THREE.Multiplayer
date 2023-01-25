@@ -1,33 +1,37 @@
 {
   "name": "death_gl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "src/index.js",
   "scripts": {
     "start": "concurrently \"nodemon server.js\" \"watchify src/index.js -o public/js/bundle.js -v\"",
-    "build": "browserify src/index.js | uglifyjs -mc warnings=false > public/js/bundle.min.js",
+    "buildall": "npm run build0 & npm run build1 & npm run build2",
+    "build2": "browserify src/index.js | terser -mc warnings=false > public/js/bundle.min.js",
+    "build1": "cp -f ./node_modules/socket.io-client/dist/socket.io.js ./public/js/socket.io.js",
+    "build0": "cp -f ./node_modules/socket.io-client/dist/socket.io.js.map  ./public/js/socket.io.js.map",
     "test": "npm run build"
   },
-  "author": "Or Fleisher <contact@orfleisher.com>",
+  "author": "Or Fleisher <contact@orfleisher.com> and Dimitrios Ververidis <jimver04@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "ejs": "^3.1.8",
     "event-emitter-es6": "^1.1.5",
-    "express": "^4.16.2",
+    "express": "^4.18.2",
     "gsap": "^3.11.4",
     "http": "0.0.0",
-    "socket.io": "^2.0.4",
-    "three": "^0.89.0"
+    "socket.io": "2.5.0",
+    "three": "0.148.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
     "browserify": "^15.2.0",
-    "concurrently": "^3.5.1",
+    "concurrently": "^7.6.0",
     "glslify": "^6.1.0",
     "nodemon": "^1.14.12",
     "uglify-js": "^3.3.9",
+    "terser": "5.16.1",
     "watchify": "^3.10.0"
   },
   "browserify": {
@@ -44,3 +48,4 @@
     ]
   }
 }
+
