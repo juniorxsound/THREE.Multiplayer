@@ -11,10 +11,10 @@
   "author": "Or Fleisher <contact@orfleisher.com>",
   "license": "MIT",
   "dependencies": {
-    "ejs": "^2.5.7",
+    "ejs": "^3.1.8",
     "event-emitter-es6": "^1.1.5",
     "express": "^4.16.2",
-    "gsap": "^1.20.3",
+    "gsap": "^3.11.4",
     "http": "0.0.0",
     "socket.io": "^2.0.4",
     "three": "^0.89.0"
