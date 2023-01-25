@@ -235,9 +235,9 @@ module.exports = (THREE) =>{
 			if ( this.lookVertical ) this.lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
 
 			this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
-			this.phi = THREE.Math.degToRad( 90 - this.lat );
+			this.phi = ( 90 - this.lat ) * 3.14159 / 180;
 
-			this.theta = THREE.Math.degToRad( this.lon );
+			this.theta = this.lon * 3.14159 / 180;
 
 			if ( this.constrainVertical ) {
 

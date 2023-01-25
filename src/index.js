@@ -88,9 +88,9 @@ socket.on('userPositions', _clientProps =>{
 
       //Create a vector 3 and lerp the new values with the old values
       let lerpedPos = new THREE.Vector3();
-      lerpedPos.x = THREE.Math.lerp(oldPos.x, newPos[0], 0.3);
-      lerpedPos.y = THREE.Math.lerp(oldPos.y, newPos[1], 0.3);
-      lerpedPos.z = THREE.Math.lerp(oldPos.z, newPos[2], 0.3);
+      lerpedPos.x = THREE.MathUtils.lerp(oldPos.x, newPos[0], 0.3);
+      lerpedPos.y = THREE.MathUtils.lerp(oldPos.y, newPos[1], 0.3);
+      lerpedPos.z = THREE.MathUtils.lerp(oldPos.z, newPos[2], 0.3);
 
       //Set the position
       clients[Object.keys(_clientProps)[i]].mesh.position.set(lerpedPos.x, lerpedPos.y, lerpedPos.z);
