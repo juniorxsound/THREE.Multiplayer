@@ -66,7 +66,7 @@ io.on('connection', client=>{
 
     io.sockets.emit('userDisconnected', io.engine.clientsCount, client.id, Object.keys(clients));
 
-    console.log('User ' + client.id + ' dissconeted, there are ' + io.engine.clientsCount + ' clients connected');
+    console.log('User ' + client.id + ' disconnected, there are ' + io.engine.clientsCount + ' clients connected');
 
   });
 

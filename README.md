@@ -1,33 +1,43 @@
-# THREE Multiplayer
+
+
+# THREE.js Multiplayer Editor 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-> Looking for a React three fiber multiplayer template? check out [R3F.Multiplayer](https://github.com/juniorxsound/R3F.Multiplayer)
+by Dimitrios Ververidis (dververidis@europe.altair.com),
+Thermi, Greece
 
-My boilerplate Node.js server and client setup for Three.js multiplayer projects using Socket.io
+> It is a fork of: https://github.com/juniorxsound/THREE-Multiplayer 
+> Boilerplate Node.js server and client setup for Three.js multiplayer projects using Socket.io
+
+Extra features
+- supports GLTF animated results as exported from HyperWorks
+- Various UI modifications to resemble HyperWorks
+
+
+# Quick start
+
 - [Installation](#installation)
 - [Usage](#usage)
 - [Pushing to Heroku](#pushing-to-heroku)
 
-![Multiplayer](https://github.com/juniorxsound/THREE-Multiplayer/blob/master/resources/multiplayer.gif)
+
 
 ## Installation
-1. Clone the repo, e.g ```git clone https://github.com/juniorxsound/THREE-Multiplayer.git```
+1. Clone the repo, e.g ```git clone https://gitlab.com/dververidisgroup/three.multiplayer.git```
 1. Run ```npm install``` to install all the dependencies
 
-~~> Tested on macOS 10.13.3 using Node.js v8.9.3 and npm v5.6.0~~
 Tested on Windows 10 using Node.js 16.17.0 and npm 8.15.0 
 
 ## Usage
 Use ```npm run buildall``` to build the necessary bundler.js and copy socket.io.js in public folder
 Use ```npm run start``` to start the server 
 
-![NPM](https://github.com/juniorxsound/THREE-Multiplayer/blob/master/resources/run_start.gif)
 
 The start script launches:
 - ```nodemon``` Which restarts the server on every change (port: 1989)
 - ```watchify``` Which bundles the client code from ```src/``` on every change to ```./public/js/bundle.js```
 
-![Server Log](https://github.com/juniorxsound/THREE-Multiplayer/blob/master/resources/Logs.png)
+
 
 On connection each client receives it's uniqe ID and on every movement broadcasts to all the other clients all the locations of everyone connected
 ```js
@@ -46,29 +56,8 @@ Browserify is setup to transform both ES6 Javascript and ```glslify``` for GLSL 
 ## Pushing to Heroku
 [This is a detailed tutorial](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) of how to push your code to Heroku through Github to serve your experience publicly
 
-> Special thanks to [Dror Ayalon](https://github.com/dodiku)
 
-## Babel libraries
 
-devDependencies
 
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-latest-node": "^1.0.0",
-    "@babel/plugin-transform-classes": "^7.2.0", 
 
-.babelrc
 
-```{
-"plugins": [
-   "babel-plugin-transform-async-to-generator",
-    "@babel/plugin-transform-classes",
-    "babel-plugin-proposal-object-rest-spread"
-     ],
-"presets": [
-         ["env", { "include": ["transform-classes"] }]
-     ]
-}
-```

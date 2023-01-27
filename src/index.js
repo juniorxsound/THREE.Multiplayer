@@ -1,8 +1,9 @@
 import * as THREE from "./three.module.js"
 
-import Scene from './scene';
+import EventEmitter3D from './eventEmitter3D';
 import Communications from './communications';
 
+import EventEmitter from 'event-emitter-es6';
 
 import { Editor } from './js/Editor.js';
 import { Viewport } from './js/Viewport.js';
@@ -27,10 +28,10 @@ import { Footer } from './js/Footer.js';
 //---------- MULTIPLAYER EXAMPLE ------------
 // const left_container = document.getElementById('left_container')
 //
-// let glScene = new Scene(left_container);
+// let eventEmitter3D = new EventEmitter3D(left_container);
 //
 // // add communications via socket to the scene
-// const communications = new Communications(glScene);
+// const communications = new Communications(eventEmitter3D);
 
 
 // -------- THREE JS EDITOR ---------------
@@ -52,9 +53,12 @@ localStorage.setItem("theme", theme);
 
 // ---------- THE WRAPPER CLASS FOR EDITOR ------------------
 
-class WrapperOfEditorClass {
+class WrapperOfEditorClass extends EventEmitter{
 
     constructor(containerId, containerPercentageWidth, initialModel) {
+
+        //Since we extend EventEmitter we need to instance it from here
+        super();
 
         Number.prototype.format = function () {
             return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
@@ -63,6 +67,126 @@ class WrapperOfEditorClass {
         this.container = document.getElementById(containerId);
         this.container.style.width = containerPercentageWidth;
 
+        //---------------  Socket io ------------------------
+        this.container.addEventListener('mouseenter', e => {
+            this.emit('mouseEntered');
+            //console.log('mouseEntered');
+        }, false);
+
+
+        //A socket.io instance
+        const socket = io();
+
+        let id;
+        let clients = new Object();
+
+        let ctx = this;
+
+        this.on('mouseEntered', ()=>{
+            socket.emit('msg', ['my message']);
+        });
+
+        //On connection server sends the client his ID
+        socket.on('introduction', (_id, _clientNum, _ids)=>{
+
+            console.log('introduction:' + _id);
+
+            for(let i = 0; i < _ids.length; i++){
+
+                if(_ids[i] != _id){
+
+                    clients[_ids[i]] = {mesh: new THREE.Mesh( new THREE.BoxGeometry(100,100,100),
+                                                              new THREE.MeshNormalMaterial({ side: THREE.DoubleSide }))}
+
+                    clients[_ids[i]].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
+
+                    //Add initial users to the scene
+                    ctx.editor.scene.add( clients[_ids[i]].mesh );
+                }
+            }
+
+            console.log(clients);
+
+            id = _id;
+            console.log('My ID is: ' + id);
+        });
+
+
+        socket.on('newUserConnected', (clientCount, _id, _ids)=>{
+
+            console.log('newUserConnected: ' + clientCount + ' clients connected');
+
+            let alreadyHasUser = false;
+
+            for(let i = 0; i < Object.keys(clients).length; i++){
+
+                if(Object.keys(clients)[i] == _id){
+
+                    alreadyHasUser = true;
+
+                    break;
+                }
+            }
+
+            if(_id != id && !alreadyHasUser){
+
+                console.log('A new user connected with the id: ' + _id);
+
+                clients[_id] = {
+                    mesh: new THREE.Mesh(  new THREE.BoxGeometry(100,100,100),
+                                            new THREE.MeshNormalMaterial({ side: THREE.DoubleSide }) )
+                }
+
+                clients[_id].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
+
+                //Add initial users to the scene
+                ctx.editor.scene.add(clients[_id].mesh);
+            }
+
+        });
+
+
+
+        socket.on('newUserConnected', (clientCount, _id, _ids)=>{
+
+            console.log('newUserConnected: '+ clientCount + ' clients connected');
+
+            let alreadyHasUser = false;
+
+            for(let i = 0; i < Object.keys(clients).length; i++){
+
+                if(Object.keys(clients)[i] == _id){
+
+                    alreadyHasUser = true;
+
+                    break;
+                }
+            }
+
+            if(_id != id && !alreadyHasUser){
+
+                console.log('newUserConnected: A new user connected with the id: ' + _id);
+
+                clients[_id] = {
+
+                    mesh: new THREE.Mesh(  new THREE.BoxGeometry(100,100,100),
+                                           new THREE.MeshNormalMaterial({ side: THREE.DoubleSide })
+                                         )
+
+                }
+
+                clients[_id].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
+
+                //Add initial users to the scene
+                ctx.editor.scene.add(clients[_id].mesh);
+            }
+
+        });
+
+
+
+
+        //----------------------------------------------
         this.editor = new Editor();
         this.editor.container = this.container;
         //this.VRButton = VRButton;
@@ -328,4 +452,4 @@ class WrapperOfEditorClass {
 
 }
 
-window.w1 = new WrapperOfEditorClass('left_container', '100%', 'bumper.h3d.glb'); //'Explorer12.h3d.glb'); //bumper.h3d.glb'); // 'owl_good.gltf'); //'mymodel20.glb');   // 'owl_good.gltf'); //'boltsExample.glb'); //'mymodel_attributeScalar.glb'); // 'boltsExample.glb'); // 'iBeam.glb'); //A4Mil.glb'); //front_suspension.app.json'); //A4Mil.glb' ); // ""
+window.w1 = new WrapperOfEditorClass('left_container', '100%', ''); //'Explorer12.h3d.glb'); //bumper.h3d.glb'); // 'owl_good.gltf'); //'mymodel20.glb');   // 'owl_good.gltf'); //'boltsExample.glb'); //'mymodel_attributeScalar.glb'); // 'boltsExample.glb'); // 'iBeam.glb'); //A4Mil.glb'); //front_suspension.app.json'); //A4Mil.glb' ); // ""

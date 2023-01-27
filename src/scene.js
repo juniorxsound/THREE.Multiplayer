@@ -4,19 +4,15 @@ import * as THREE from './three.module.js';
 import FirstPersonControls from './fpscontrols';
 FirstPersonControls(THREE);
 
-// Event emitter implementation for ES6
-import EventEmitter from 'event-emitter-es6';
 
-class Scene extends EventEmitter {
+class Scene {
+
   constructor(domElement ,
               _width = window.innerWidth,
               _height = window.innerHeight,
               hasControls = true,
               clearColor = 'black')
   {
-
-    //Since we extend EventEmitter we need to instance it from here
-    super();
 
     //THREE scene
     this.scene = new THREE.Scene();
@@ -47,14 +43,15 @@ class Scene extends EventEmitter {
 
     //Setup event listeners for events and handle the states
     window.addEventListener('resize', e => this.onWindowResize(e), false);
-    domElement.addEventListener('mouseenter', e => this.onEnterCanvas(e), false);
-    domElement.addEventListener('mouseleave', e => this.onLeaveCanvas(e), false);
-    window.addEventListener('keydown', e => this.onKeyDown(e), false);
+    // domElement.addEventListener('mouseenter', e => this.onEnterCanvas(e), false);
+    // domElement.addEventListener('mouseleave', e => this.onLeaveCanvas(e), false);
+    // window.addEventListener('keydown', e => this.onKeyDown(e), false);
 
     this.helperGrid = new THREE.GridHelper( 10, 10 );
     this.helperGrid.position.y = -0.5;
     this.scene.add(this.helperGrid);
-    this.clock = new THREE.Clock();
+
+    // this.clock = new THREE.Clock();
 
     this.update();
 
