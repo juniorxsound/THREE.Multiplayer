@@ -47,3 +47,28 @@ Browserify is setup to transform both ES6 Javascript and ```glslify``` for GLSL 
 [This is a detailed tutorial](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) of how to push your code to Heroku through Github to serve your experience publicly
 
 > Special thanks to [Dror Ayalon](https://github.com/dodiku)
+
+## Babel libraries
+
+devDependencies
+
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-latest-node": "^1.0.0",
+    "@babel/plugin-transform-classes": "^7.2.0", 
+
+.babelrc
+
+```{
+"plugins": [
+   "babel-plugin-transform-async-to-generator",
+    "@babel/plugin-transform-classes",
+    "babel-plugin-proposal-object-rest-spread"
+     ],
+"presets": [
+         ["env", { "include": ["transform-classes"] }]
+     ]
+}
+```

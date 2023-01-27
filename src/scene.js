@@ -1,5 +1,5 @@
 //Three.js
-import * as THREE from 'three';
+import * as THREE from './three.module.js';
 
 import FirstPersonControls from './fpscontrols';
 FirstPersonControls(THREE);
@@ -8,11 +8,12 @@ FirstPersonControls(THREE);
 import EventEmitter from 'event-emitter-es6';
 
 class Scene extends EventEmitter {
-  constructor(domElement = document.getElementById('gl_context'),
+  constructor(domElement ,
               _width = window.innerWidth,
               _height = window.innerHeight,
               hasControls = true,
-              clearColor = 'black'){
+              clearColor = 'black')
+  {
 
     //Since we extend EventEmitter we need to instance it from here
     super();

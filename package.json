@@ -1,8 +1,9 @@
 {
-  "name": "death_gl",
+  "name": "hpv_web",
   "version": "0.0.2",
   "description": "",
   "main": "src/index.js",
+
   "scripts": {
     "start": "concurrently \"nodemon server.js\" \"watchify src/index.js -o public/js/bundle.js -v\"",
     "buildall": "npm run build0 & npm run build1 & npm run build2",
@@ -14,24 +15,28 @@
   "author": "Or Fleisher <contact@orfleisher.com> and Dimitrios Ververidis <jimver04@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "ejs": "^3.1.8",
     "event-emitter-es6": "^1.1.5",
     "express": "^4.18.2",
     "gsap": "^3.11.4",
     "http": "0.0.0",
-    "socket.io": "2.5.0",
-    "three": "0.148.0"
+    "signals": "^1.0.0",
+    "socket.io": "2.5.0"
+
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babelify": "^8.0.0",
-    "browserify": "^15.2.0",
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "async-await-browserify": "^1.0.0",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
     "concurrently": "^7.6.0",
-    "glslify": "^6.1.0",
+    "glslify": "^7.1.1",
     "nodemon": "^1.14.12",
-    "uglify-js": "^3.3.9",
     "terser": "5.16.1",
+    "uglify-js": "^3.3.9",
     "watchify": "^3.10.0"
   },
   "browserify": {
@@ -40,7 +45,7 @@
         "babelify",
         {
           "presets": [
-            "env"
+            "@babel/preset-env"
           ]
         }
       ],
@@ -48,4 +53,3 @@
     ]
   }
 }
-
