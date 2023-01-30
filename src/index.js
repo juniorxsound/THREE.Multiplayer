@@ -57,8 +57,11 @@ class WrapperOfEditorClass extends EventEmitter{
 
     constructor(containerId, containerPercentageWidth, initialModel) {
 
+
         //Since we extend EventEmitter we need to instance it from here
         super();
+
+        this.editor = new Editor();
 
         Number.prototype.format = function () {
             return this.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
@@ -75,44 +78,52 @@ class WrapperOfEditorClass extends EventEmitter{
 
 
         //A socket.io instance
-        const socket = io();
+        this.editor.socket = io();
 
         let id;
         let clients = new Object();
 
         let ctx = this;
 
-        this.on('mouseEntered', ()=>{
-            socket.emit('msg', ['my message']);
+        this.on('mouseEntered', () => {
+            //ctx.editor.socket.emit('msg', 'msgContent');
+        });
+
+        // When newUserName comes from server
+        this.editor.socket.on('newUserName', (id, name)=>{
+
+            document.getElementById("usernameInput").classList.add("userLoggedIn");
+
+            console.log("%c New user name for "  + id + " = " + name, "color: yellow");
         });
 
         //On connection server sends the client his ID
-        socket.on('introduction', (_id, _clientNum, _ids)=>{
+        // this.editor.socket.on('introduction',       (_id, _clientNum, _ids)=>{
+        //
+        //     console.log('%c intro user with id:' + _id, "color: cyan");
+        //
+        //     for(let i = 0; i < _ids.length; i++){
+        //
+        //         if(_ids[i] != _id){
+        //
+        //             const materialCube = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide });
+        //             clients[_ids[i]] = {mesh: new THREE.Mesh( new THREE.BoxGeometry(100,100,100),
+        //                                                       materialCube)};
+        //
+        //             clients[_ids[i]].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
+        //
+        //             //Add initial users to the scene
+        //             ctx.editor.scene.add( clients[_ids[i]].mesh );
+        //         }
+        //     }
+        //
+        //     console.log("%c clients", "color:green",  clients); //, );
+        //
+        //     id = _id;
+        //     console.log('My ID is: ' + id);
+        // });
 
-            console.log('introduction:' + _id);
-
-            for(let i = 0; i < _ids.length; i++){
-
-                if(_ids[i] != _id){
-
-                    clients[_ids[i]] = {mesh: new THREE.Mesh( new THREE.BoxGeometry(100,100,100),
-                                                              new THREE.MeshNormalMaterial({ side: THREE.DoubleSide }))}
-
-                    clients[_ids[i]].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
-
-                    //Add initial users to the scene
-                    ctx.editor.scene.add( clients[_ids[i]].mesh );
-                }
-            }
-
-            console.log(clients);
-
-            id = _id;
-            console.log('My ID is: ' + id);
-        });
-
-
-        socket.on('newUserConnected', (clientCount, _id, _ids)=>{
+        this.editor.socket.on('newUserConnected', (clientCount, _id, _ids) => {
 
             console.log('newUserConnected: ' + clientCount + ' clients connected');
 
@@ -132,62 +143,43 @@ class WrapperOfEditorClass extends EventEmitter{
 
                 console.log('A new user connected with the id: ' + _id);
 
+                //------------ Make a Sprite ------
+
+                const textureLoader = new THREE.TextureLoader();
+                textureLoader.load( 'images/icon.png', (texture)=>{
+
+                    const material = new THREE.SpriteMaterial( { map: texture } );
+
+                    const width = material.map.image.width;
+                    const height = material.map.image.height;
+
+                    let spriteTL = new THREE.Sprite( material );
+                    spriteTL.position.set(0, 0, 0);
+                    spriteTL.center.set( 0.5, 0.5 );
+                    spriteTL.scale.set( width, height, 1 );
+                    ctx.editor.scene.add(spriteTL)
+                    }
+                );
+
+                //---------------------------------
+
+
+
                 clients[_id] = {
-                    mesh: new THREE.Mesh(  new THREE.BoxGeometry(100,100,100),
-                                            new THREE.MeshNormalMaterial({ side: THREE.DoubleSide }) )
-                }
+                                        mesh: new THREE.Mesh(  new THREE.BoxGeometry(100,100,100),
+                                            new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, color:'red' }) )
+                                }
 
-                clients[_id].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
+                        clients[_id].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
 
-                //Add initial users to the scene
-                ctx.editor.scene.add(clients[_id].mesh);
+                        //Add initial users to the scene
+                        ctx.editor.scene.add(clients[_id].mesh);
             }
 
         });
-
-
-
-        socket.on('newUserConnected', (clientCount, _id, _ids)=>{
-
-            console.log('newUserConnected: '+ clientCount + ' clients connected');
-
-            let alreadyHasUser = false;
-
-            for(let i = 0; i < Object.keys(clients).length; i++){
-
-                if(Object.keys(clients)[i] == _id){
-
-                    alreadyHasUser = true;
-
-                    break;
-                }
-            }
-
-            if(_id != id && !alreadyHasUser){
-
-                console.log('newUserConnected: A new user connected with the id: ' + _id);
-
-                clients[_id] = {
-
-                    mesh: new THREE.Mesh(  new THREE.BoxGeometry(100,100,100),
-                                           new THREE.MeshNormalMaterial({ side: THREE.DoubleSide })
-                                         )
-
-                }
-
-                clients[_id].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
-
-                //Add initial users to the scene
-                ctx.editor.scene.add(clients[_id].mesh);
-            }
-
-        });
-
-
-
 
         //----------------------------------------------
-        this.editor = new Editor();
+
         this.editor.container = this.container;
         //this.VRButton = VRButton;
 

@@ -31,6 +31,8 @@ function SidebarProject( editor ) {
 
 	settings.add( titleRow );
 
+
+
 	// Editable
 
 	const editableRow = new UIRow();

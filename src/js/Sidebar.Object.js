@@ -807,13 +807,13 @@ function SidebarObject( editor ) {
 
 		if ( object.color !== undefined ) {
 
-			objectColor.setHexValue( object.color.getHexString() );
+			objectColor.setHexValue( object.color.getHex() );
 
 		}
 
 		if ( object.groundColor !== undefined ) {
 
-			objectGroundColor.setHexValue( object.groundColor.getHexString() );
+			objectGroundColor.setHexValue( object.groundColor.getHex() );
 
 		}
 

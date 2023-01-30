@@ -183,11 +183,8 @@ function SidebarScene( editor ) {
 			if (!geometry.name)
 				geometry.name = "unnamed geometry";
 
-
-
-			// Material
 			html += ` <div class="resizableDiv small table-body-cell">
- 						<span class="type color-icon" style="color:#${object.material.color.getHexString()}"></span>
+ 						<span class="type color-icon" style="color:#${object.material.color.getHex()}"></span>
 						<input value="${ escapeHTML( getMaterialName( material ) ) }" />
 					</div>`;
 
@@ -196,12 +193,7 @@ function SidebarScene( editor ) {
  						<span class="material-icons-outlined geometry-icon">grid_4x4</span>
 						<input value="${ escapeHTML( geometry.name ) }"/>
 					  </div>`; //<span class="type Geometry"></span>
-
-
-
 		}
-
-
 
 		html += getScript( object.uuid );
 

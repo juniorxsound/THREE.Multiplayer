@@ -173,12 +173,12 @@ function ViewportBrowser( editor ) {
 
 			// Material
 			// html += `<td><div class="resizableDiv small table-body-cell">
- 			// 			<span class="type color-icon" style="color:#${object.material.color.getHexString()}"></span>
+ 			// 			<span class="type color-icon" style="color:#${object.material.color.getHex()}"></span>
 			// 			<input value="${ escapeHTML( getMaterialName( material ) ) }" />
 			// 		</div></td>`;
 
 			html += `<td>
- 						<span class="type color-icon" style="color:#${object.material.color.getHexString()}"></span>
+ 						<span class="type color-icon" style="color:#${object.material.color.getHex()}"></span>
 					</td>`;
 
 			// Geometry

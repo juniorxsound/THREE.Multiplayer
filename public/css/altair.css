@@ -102,11 +102,116 @@
 }
 
 #menubar .menu.right {
-    width: 30%;
+    width: 20%;
 }
 
+#menubar .menu.user.right {
+    display: inline-block;
+    right: 20%;
+    top: 2px;
+    height: 28px;
+    position: absolute;
+}
 
+.usernameInput{
+    background: black;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    vertical-align: top;
+    padding: 5px !important;
+}
 
+.usernameInput:focus{
+    font-weight: normal;
+}
+
+.userPendingLoggedIn{
+    background: yellow;
+    font-weight: normal;
+    transition-duration: 0.4s;
+    transition-property: background-color,font-weight;
+}
+
+.userLoggedIn{
+    background: transparent;
+    font-weight: bold;
+
+    transition-duration: 0.4s;
+    transition-property: background-color,font-weight;
+}
+
+.openListUsers{
+    width:27px;
+    height:25px;
+    padding:2px;
+    display:inline-block;
+    margin-top:2px;
+}
+
+.openListUsers:active{
+    background: var(--bars-for-light);
+}
+
+.modalUserList{
+    background: var(--bkg-for-dark);
+    color: var(--text-for-dark);
+    text-align: left;
+    padding: 5px;
+    padding-left:25px;
+    margin: 2px;
+    margin-left:150px;
+}
+
+.closeModalUserList{
+    font-size: 24px;
+}
+
+/* -------- User List --------- */
+.userList{
+    margin:2px;
+}
+
+ol.userList {
+    list-style: none; /* Remove default numbering */
+    counter-reset: my-awesome-counter;
+    font: 15px 'trebuchet MS', 'lucida sans';
+    padding: 0;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+ol.userList li {
+    counter-increment: my-awesome-counter;
+}
+
+ol.userList li a{
+    position: relative;
+    display: block;
+    padding: .4em .4em .4em 2em;
+    *padding: .4em;
+    margin: .5em 0;
+    background: #ddd;
+    color: #444;
+    text-decoration: none;
+    border-radius: .3em;
+    transition: all .3s ease-out;
+}
+
+ol.userList li a:before{
+    content: counter(my-awesome-counter);
+    position: absolute;
+    left: -1.3em;
+    top: 50%;
+    margin-top: -1.3em;
+    background: #87ceeb;
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    border: .3em solid #fff;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 2em;
+    transition: all .3s ease-out;
+}
 
 
 /* =========== Toolbar ============== */
@@ -1544,3 +1649,5 @@ input.Number{
 .processesProgress{
     height: 22px;
 }
+
+

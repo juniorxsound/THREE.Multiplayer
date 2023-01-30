@@ -309,6 +309,13 @@ class UIInput extends UIElement {
 
 	}
 
+	setPlaceholder(value){
+
+		this.dom.placeholder = value;
+
+		return this;
+	}
+
 }
 
 class UITextArea extends UIElement {

@@ -53,7 +53,7 @@ function SidebarMaterialColorProperty( editor, property, name ) {
 
 		if ( property in material ) {
 
-			color.setHexValue( material[ property ].getHexString() );
+			color.setHexValue( material[ property ].getHex() );
 
 			if ( intensity !== undefined ) {
 

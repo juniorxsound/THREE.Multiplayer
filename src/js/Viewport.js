@@ -1312,16 +1312,11 @@ function Viewport( editor, parentClassContainer ) {
 		domImgContainer.appendChild(modal);
 		domImgContainer.appendChild(domImgDelete);
 
-
-
 		// Append to resizable part of PhotosBar
 		let resizableDiv = document.getElementById("photosBarResizableDiv");
 		resizableDiv.appendChild(domImgContainer);
 		resizableDiv.scrollTop = resizableDiv.scrollHeight;
 	});
-
-
-
 
 	signals.exitedVR.add( render );
 
