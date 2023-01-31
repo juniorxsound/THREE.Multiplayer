@@ -53,6 +53,8 @@ function Viewport( editor, parentClassContainer ) {
 	container.add( new ViewportColormap( editor ));
 
 	let renderer = null;
+	let cssRenderer = null;
+
 	let pmremGenerator = null;
 
 	const camera = editor.camera;
@@ -451,7 +453,7 @@ function Viewport( editor, parentClassContainer ) {
 
 
 
-	signals.rendererCreated.add( function ( newRenderer ) {
+	signals.rendererCreated.add( function ( newRenderer, newCSSRenderer ) {
 
 		if ( renderer !== null ) {
 
@@ -464,6 +466,7 @@ function Viewport( editor, parentClassContainer ) {
 		}
 
 		renderer = newRenderer;
+		cssRenderer = newCSSRenderer;
 
 		renderer.setAnimationLoop( animate );
 		renderer.setClearColor( 0xaaaaaa );
@@ -492,6 +495,12 @@ function Viewport( editor, parentClassContainer ) {
 		pmremGenerator.compileEquirectangularShader();
 
 		container.dom.appendChild( renderer.domElement );
+
+
+		cssRenderer.setSize( container.dom.offsetWidth, container.dom.offsetHeight );
+		cssRenderer.domElement.style.position = 'absolute';
+		cssRenderer.domElement.style.top = '0px';
+		container.dom.appendChild( cssRenderer.domElement );
 
 		render();
 
@@ -1327,6 +1336,7 @@ function Viewport( editor, parentClassContainer ) {
 		updateAspectRatio();
 
 		renderer.setSize( container.dom.offsetWidth, container.dom.offsetHeight );
+		cssRenderer.setSize( container.dom.offsetWidth, container.dom.offsetHeight );
 
 		render();
 
@@ -1428,6 +1438,7 @@ function Viewport( editor, parentClassContainer ) {
 		scene.add( grid );
 		renderer.setViewport( 0, 0, container.dom.offsetWidth, container.dom.offsetHeight );
 		renderer.render( scene, editor.viewportCamera );
+
 		scene.remove( grid );
 
 		if ( camera === editor.viewportCamera ) {
@@ -1439,6 +1450,10 @@ function Viewport( editor, parentClassContainer ) {
 
 		}
 
+		// Render the labels
+		cssRenderer.render( scene, camera );
+
+		// Measure performance
 		endTime = performance.now();
 		editor.signals.sceneRendered.dispatch( endTime - startTime );
 

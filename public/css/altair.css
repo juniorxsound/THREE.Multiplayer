@@ -213,6 +213,29 @@ ol.userList li a:before{
     transition: all .3s ease-out;
 }
 
+.userLabelDiv {
+    color: #FFF;
+    font-family: sans-serif;
+    padding: 4px;
+    background: rgba( 0, 0, 0, .6 );
+    text-align: center;
+}
+
+.userLabelTextDiv{
+    margin-left:5px;
+    display:inline-block;
+    vertical-align: top;
+    padding-top:5px;
+    font-size: 12px;
+}
+
+.userCompanyLogo{
+    display:inline-block;
+    margin-left:5px;
+    margin-top:2px;
+    width:16px;
+    height:16px;
+}
 
 /* =========== Toolbar ============== */
 .toolbar {

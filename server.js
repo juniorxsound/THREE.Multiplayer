@@ -43,7 +43,7 @@ io.on('connection', client => {
   clients[client.id] = { position: [0, 0, 0], rotation: [0, 0, 0] }
 
   //To the client connected only: Make sure to send the client it's ID
-  //client.emit('introduction', client.id, io.engine.clientsCount, Object.keys(clients));
+  client.emit('introduction', client.id, io.engine.clientsCount, Object.keys(clients));
 
   //To all: Update everyone that the number of users has changed
   io.sockets.emit('newUserConnected', io.engine.clientsCount, client.id, Object.keys(clients));

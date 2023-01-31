@@ -2,6 +2,7 @@ import * as THREE from '../three.module.js';
 
 import { UINumber, UIPanel, UIRow, UISelect, UIText } from './libs/ui.js';
 import { UIBoolean } from './libs/ui.three.js';
+import { CSS2DRenderer, CSS2DObject } from '../jsm/renderers/CSS2DRenderer.js';
 
 function SidebarProjectRenderer( editor ) {
 
@@ -10,6 +11,7 @@ function SidebarProjectRenderer( editor ) {
 	const strings = editor.strings;
 
 	let currentRenderer = null;
+	let currentCssRenderer = null;
 
 	const container = new UIPanel();
 
@@ -119,9 +121,10 @@ function SidebarProjectRenderer( editor ) {
 
 		//currentRenderer.clearTarget(editor.scene.children[2].shadow.map);
 
-		signals.rendererCreated.dispatch( currentRenderer );
-		signals.rendererUpdated.dispatch();
+		currentCssRenderer = new CSS2DRenderer();
 
+		signals.rendererCreated.dispatch( currentRenderer, currentCssRenderer );
+		signals.rendererUpdated.dispatch();
 	}
 
 	createRenderer();

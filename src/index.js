@@ -1,9 +1,9 @@
 import * as THREE from "./three.module.js"
 
-import EventEmitter3D from './eventEmitter3D';
-import Communications from './communications';
+// import EventEmitter3D from './eventEmitter3D';
+// import Communications from './communications';
 
-import EventEmitter from 'event-emitter-es6';
+
 
 import { Editor } from './js/Editor.js';
 import { Viewport } from './js/Viewport.js';
@@ -11,27 +11,20 @@ import { Toolbar } from './js/Toolbar.js';
 import { ToolbarInfo } from './js/Toolbar.Info.js';
 import { PhotosBar } from './js/PhotosBar.js';
 import { ToolbarAdv } from './js/ToolbarAdv.js';
-
 import { ToolbarHorizontalAnimation } from './js/ToolbarHorizontalAnimation.js';
-import { Script } from './js/Script.js';
-import { Player } from './js/Player.js';
+// import { Script } from './js/Script.js';
+// import { Player } from './js/Player.js';
 import { Sidebar } from './js/Sidebar.js';
 import { UpperRibbon } from './js/UpperRibbon.js';
 import { Menubar } from './js/Menubar.js';
 import { Resizer } from './js/Resizer.js';
-import { VRButton } from './jsm/webxr/VRButton.js';
+// import { VRButton } from './jsm/webxr/VRButton.js';
 import { ViewportBrowser } from './js/Viewport.Browser.js';
 import { Footer } from './js/Footer.js';
+import SocketPlayerReceiver from "./js/SocketPlayerReceiver";
 
-// Make the scene
 
-//---------- MULTIPLAYER EXAMPLE ------------
-// const left_container = document.getElementById('left_container')
-//
-// let eventEmitter3D = new EventEmitter3D(left_container);
-//
-// // add communications via socket to the scene
-// const communications = new Communications(eventEmitter3D);
+
 
 
 // -------- THREE JS EDITOR ---------------
@@ -53,13 +46,9 @@ localStorage.setItem("theme", theme);
 
 // ---------- THE WRAPPER CLASS FOR EDITOR ------------------
 
-class WrapperOfEditorClass extends EventEmitter{
+class WrapperOfEditorClass {
 
     constructor(containerId, containerPercentageWidth, initialModel) {
-
-
-        //Since we extend EventEmitter we need to instance it from here
-        super();
 
         this.editor = new Editor();
 
@@ -70,116 +59,10 @@ class WrapperOfEditorClass extends EventEmitter{
         this.container = document.getElementById(containerId);
         this.container.style.width = containerPercentageWidth;
 
-        //---------------  Socket io ------------------------
-        this.container.addEventListener('mouseenter', e => {
-            this.emit('mouseEntered');
-            //console.log('mouseEntered');
-        }, false);
+        // Receive or send events of socket io
+        this.socketPlayerReceiver = new SocketPlayerReceiver(this);
 
-
-        //A socket.io instance
-        this.editor.socket = io();
-
-        let id;
-        let clients = new Object();
-
-        let ctx = this;
-
-        this.on('mouseEntered', () => {
-            //ctx.editor.socket.emit('msg', 'msgContent');
-        });
-
-        // When newUserName comes from server
-        this.editor.socket.on('newUserName', (id, name)=>{
-
-            document.getElementById("usernameInput").classList.add("userLoggedIn");
-
-            console.log("%c New user name for "  + id + " = " + name, "color: yellow");
-        });
-
-        //On connection server sends the client his ID
-        // this.editor.socket.on('introduction',       (_id, _clientNum, _ids)=>{
         //
-        //     console.log('%c intro user with id:' + _id, "color: cyan");
-        //
-        //     for(let i = 0; i < _ids.length; i++){
-        //
-        //         if(_ids[i] != _id){
-        //
-        //             const materialCube = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide });
-        //             clients[_ids[i]] = {mesh: new THREE.Mesh( new THREE.BoxGeometry(100,100,100),
-        //                                                       materialCube)};
-        //
-        //             clients[_ids[i]].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
-        //
-        //             //Add initial users to the scene
-        //             ctx.editor.scene.add( clients[_ids[i]].mesh );
-        //         }
-        //     }
-        //
-        //     console.log("%c clients", "color:green",  clients); //, );
-        //
-        //     id = _id;
-        //     console.log('My ID is: ' + id);
-        // });
-
-        this.editor.socket.on('newUserConnected', (clientCount, _id, _ids) => {
-
-            console.log('newUserConnected: ' + clientCount + ' clients connected');
-
-            let alreadyHasUser = false;
-
-            for(let i = 0; i < Object.keys(clients).length; i++){
-
-                if(Object.keys(clients)[i] == _id){
-
-                    alreadyHasUser = true;
-
-                    break;
-                }
-            }
-
-            if(_id != id && !alreadyHasUser){
-
-                console.log('A new user connected with the id: ' + _id);
-
-                //------------ Make a Sprite ------
-
-                const textureLoader = new THREE.TextureLoader();
-                textureLoader.load( 'images/icon.png', (texture)=>{
-
-                    const material = new THREE.SpriteMaterial( { map: texture } );
-
-                    const width = material.map.image.width;
-                    const height = material.map.image.height;
-
-                    let spriteTL = new THREE.Sprite( material );
-                    spriteTL.position.set(0, 0, 0);
-                    spriteTL.center.set( 0.5, 0.5 );
-                    spriteTL.scale.set( width, height, 1 );
-                    ctx.editor.scene.add(spriteTL)
-                    }
-                );
-
-                //---------------------------------
-
-
-
-                clients[_id] = {
-                                        mesh: new THREE.Mesh(  new THREE.BoxGeometry(100,100,100),
-                                            new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, color:'red' }) )
-                                }
-
-                        clients[_id].mesh.position.set(Math.random()*500, Math.random()*500, Math.random()*500 );
-
-                        //Add initial users to the scene
-                        ctx.editor.scene.add(clients[_id].mesh);
-            }
-
-        });
-
-        //----------------------------------------------
-
         this.editor.container = this.container;
         //this.VRButton = VRButton;
 
