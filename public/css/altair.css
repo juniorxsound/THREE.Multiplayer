@@ -168,20 +168,26 @@
 
 /* --------- files ----------- */
 .filesContainer{
-    background: var(--bkg-for-dark);
-    color: var(--text-for-dark);
     text-align: left;
     z-index: 3;
     left:200px;
-    min-width: 300px;
-    min-height: 200px;
+
     top:120px;
     position:absolute;
     color: var(--text-for-dark);
     background: var(--bars-for-dark);
-    resize: both;
+    visibility: hidden;
+}
+
+#filesBrowserResizableDiv {
+    height: 190px;
+    width: 100%;
+    min-width: 300px;
+    min-height: 200px;
+    max-width: 800px;
     overflow: auto;
-    display: none;
+    resize: both;
+    z-index: 1;
 }
 
 
@@ -237,6 +243,8 @@
     vertical-align:middle;
     max-width: 60px;
     margin:auto;
+    margin-top:3px;
+    margin-bottom:3px;
 }
 
 .OpenFileBt:active{

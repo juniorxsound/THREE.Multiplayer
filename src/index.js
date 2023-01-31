@@ -8,6 +8,7 @@ import { Viewport } from './js/Viewport.js';
 import { Toolbar } from './js/Toolbar.js';
 import { ToolbarInfo } from './js/Toolbar.Info.js';
 import { PhotosBar } from './js/PhotosBar.js';
+import { FilesBrowser } from './js/FilesBrowser.js';
 import { ToolbarAdv } from './js/ToolbarAdv.js';
 import { ToolbarHorizontalAnimation } from './js/ToolbarHorizontalAnimation.js';
 // import { Script } from './js/Script.js';
@@ -20,7 +21,7 @@ import { Resizer } from './js/Resizer.js';
 import { ViewportBrowser } from './js/Viewport.Browser.js';
 import { Footer } from './js/Footer.js';
 import SocketPlayerReceiver from "./js/SocketPlayerReceiver";
-import {UIDiv} from "./js/libs/ui";
+
 
 // -------- THREE JS EDITOR ---------------
 window.URL = window.URL || window.webkitURL;
@@ -120,11 +121,14 @@ class WrapperOfEditorClass {
         const resizer = new Resizer(this.editor);
         this.container.appendChild(resizer.dom);
 
+        const filesContainer = new FilesBrowser(this.editor);
+        this.container.appendChild(filesContainer.dom);
+
         this.editor.resizer = resizer;
 
         let classThis = this;
 
-        this.editor.storage.init(function () {
+        this.editor.storage.init( function () {
 
             classThis.editor.storage.get(function (state) {
                 if (isLoadingFromHash) return;
@@ -201,93 +205,7 @@ class WrapperOfEditorClass {
             }
 
 
-            const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-            function niceBytes(x){
-
-                let l = 0, n = parseInt(x, 10) || 0;
-
-                while(n >= 1024 && ++l){
-                    n = n/1024;
-                }
-
-                return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
-            }
-
-
-            function appendDom(container, jsonData) {
-
-
-
-                for (let i = -1; i <jsonData.length; i++) {
-                    let divItem  = document.createElement("div");
-
-                    let divFileNameEntry = document.createElement("div");
-                    divFileNameEntry.textContent = i===-1 ? "Filename":"";
-                    divFileNameEntry.classList.add(i===-1 ? "divFileNameEntryHeader" : "divFileNameEntry");
-                    divItem.appendChild(divFileNameEntry);
-
-                    if (i!==-1) {
-                        let divFileNameEntryInner = document.createElement("div");
-                        divFileNameEntryInner.textContent = jsonData[i].name;
-                        divFileNameEntryInner.classList.add("fileNameEntry");
-                        divFileNameEntry.appendChild(divFileNameEntryInner);
-                    }
-
-
-
-                    let divFileEntrySize = document.createElement("div");
-                    divFileEntrySize.textContent = i===-1 ? "Size" : niceBytes(jsonData[i].fileSizeInBytes);
-                    divFileEntrySize.classList.add(i===-1 ? "divFileEntrySizeHeader" : "divFileEntrySize");
-                    divItem.appendChild(divFileEntrySize);
-
-
-                    let divFileEntryOpen = document.createElement("div");
-                    divFileEntryOpen.textContent = i===-1 ? "Action" : "";
-                    divFileEntryOpen.classList.add(i===-1 ? "divFileEntryOpenHeader" : "divFileEntryOpen");
-                    divItem.appendChild(divFileEntryOpen);
-
-                    if (i!==-1){
-                        let divFileEntryOpenInner = document.createElement("div");
-                        divFileEntryOpenInner.textContent = "Open";
-                        divFileEntryOpenInner.classList.add("OpenFileBt");
-                        divFileEntryOpen.append(divFileEntryOpenInner);
-                        divFileEntryOpen.addEventListener("click", ()=>{
-                            console.log("%c Open File " + jsonData[i].name, "color:green");
-
-                        });
-                    }
-
-                    container.append(divItem);
-                }
-            }
-
-            let filesContainer = document.createElement("div");
-            filesContainer.id = "filesContainer";
-            filesContainer.classList.add("filesContainer")
-            classThis.container.appendChild(filesContainer);
-
-            let closeFilesBrowser = new UIDiv();
-            closeFilesBrowser.setId("closeFilesBt");
-            closeFilesBrowser.dom.classList.add("movableCloseHeader");
-            closeFilesBrowser.dom.style.bottom="2.5px";
-            closeFilesBrowser.dom.style.left="0";
-            closeFilesBrowser.dom.style.top="auto";
-            closeFilesBrowser.setInnerHTML('<span class="material-symbols-outlined">close</span>');
-            filesContainer.append(closeFilesBrowser.dom);
-            closeFilesBrowser.onClick(function(){filesContainer.style.display="none";});
-
-
-
-            function callbackViewFiles( arrayData ) {
-
-                let jsonData = JSON.parse(arrayData);
-
-                appendDom(filesContainer, jsonData)
-
-            }
-
-            downloader("./fnames" , callbackViewFiles, "text/plain", "text" );
 
             // GLTF MODEL
             if (initialModel) {

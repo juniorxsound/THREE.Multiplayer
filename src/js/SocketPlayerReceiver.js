@@ -92,7 +92,7 @@ class SocketPlayerReceiver extends EventEmitter{
 
                 if(_ids[i] != _id){
 
-                    const materialCube = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+                    const materialCube = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide, color:'red' });
                     clients[_ids[i]] = {
                         mesh: new THREE.Mesh(
                             new THREE.BoxGeometry(100,100,100),

@@ -27,8 +27,8 @@ function UpperRibbon( editor ) {
 	ribbonOpenFileBt.dom.appendChild( ribbonOpenFileBtDiv );
 	ribbonOpenFileBt.onClick( function () {
 
-		let filesContaner = document.getElementById("filesContainer");
-		filesContaner.style.display = "block";
+
+		document.getElementById("filesContainer").style.visibility = "visible";
 
 
 		//signals.browserToolbarVisibilityToggle.dispatch( this.dom );

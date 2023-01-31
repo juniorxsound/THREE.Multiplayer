@@ -79,6 +79,14 @@ io.on('connection', client => {
 
   });
 
+
+  client.on('fileFetchRequest', (fname)=> {
+
+    console.log("Client " + client.customName + " wants the file: " + fname);
+
+  })
+
+
   //Handle the disconnection
   client.on('disconnect', ()=>{
 
