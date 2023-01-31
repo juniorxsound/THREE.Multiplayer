@@ -3,8 +3,6 @@ import * as THREE from "./three.module.js"
 // import EventEmitter3D from './eventEmitter3D';
 // import Communications from './communications';
 
-
-
 import { Editor } from './js/Editor.js';
 import { Viewport } from './js/Viewport.js';
 import { Toolbar } from './js/Toolbar.js';
@@ -22,13 +20,9 @@ import { Resizer } from './js/Resizer.js';
 import { ViewportBrowser } from './js/Viewport.Browser.js';
 import { Footer } from './js/Footer.js';
 import SocketPlayerReceiver from "./js/SocketPlayerReceiver";
-
-
-
-
+import {UIDiv} from "./js/libs/ui";
 
 // -------- THREE JS EDITOR ---------------
-
 window.URL = window.URL || window.webkitURL;
 window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
 
@@ -174,84 +168,140 @@ class WrapperOfEditorClass {
             signals.scriptChanged.add(saveState);
             signals.historyChanged.add(saveState);
 
+
+            function downloader(url, callback, headerAccept, responseType) {
+                const xhr = new XMLHttpRequest();
+                xhr.onprogress = (ev) => {
+                    //Downloading Progress
+                    signals.downloadProgressChanged.dispatch(ev.loaded / ev.total);
+                }
+
+                xhr.onload = () => {
+                    callback(xhr.response);
+                }
+                xhr.open('GET', url, true);
+                xhr.setRequestHeader("Accept", headerAccept ) ;//"model/gltf-binary");
+                xhr.responseType = responseType; // "arraybuffer"
+                xhr.send('');
+            }
+
+
+            function callbackLoadModel( response ) {
+
+                classThis.file = new File([response], initialModel, {type: 'model/gltf-binary'});
+
+                classThis.editor.loader.loadFile( classThis.file );
+
+                setTimeout( function() {
+                    // window.w1.editor.viewportVertexColors =  "Contour";
+                    // signals.viewportVertexColorsChanged.dispatch("jet", 9);
+                    // 	window.w1.editor.setViewportMode("Objects and Nodes");
+                }, 200 );
+                // classThis.editor.signals.viewportModeChanged.dispatch();
+            }
+
+
+            const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+            function niceBytes(x){
+
+                let l = 0, n = parseInt(x, 10) || 0;
+
+                while(n >= 1024 && ++l){
+                    n = n/1024;
+                }
+
+                return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
+            }
+
+
+            function appendDom(container, jsonData) {
+
+
+
+                for (let i = -1; i <jsonData.length; i++) {
+                    let divItem  = document.createElement("div");
+
+                    let divFileNameEntry = document.createElement("div");
+                    divFileNameEntry.textContent = i===-1 ? "Filename":"";
+                    divFileNameEntry.classList.add(i===-1 ? "divFileNameEntryHeader" : "divFileNameEntry");
+                    divItem.appendChild(divFileNameEntry);
+
+                    if (i!==-1) {
+                        let divFileNameEntryInner = document.createElement("div");
+                        divFileNameEntryInner.textContent = jsonData[i].name;
+                        divFileNameEntryInner.classList.add("fileNameEntry");
+                        divFileNameEntry.appendChild(divFileNameEntryInner);
+                    }
+
+
+
+                    let divFileEntrySize = document.createElement("div");
+                    divFileEntrySize.textContent = i===-1 ? "Size" : niceBytes(jsonData[i].fileSizeInBytes);
+                    divFileEntrySize.classList.add(i===-1 ? "divFileEntrySizeHeader" : "divFileEntrySize");
+                    divItem.appendChild(divFileEntrySize);
+
+
+                    let divFileEntryOpen = document.createElement("div");
+                    divFileEntryOpen.textContent = i===-1 ? "Action" : "";
+                    divFileEntryOpen.classList.add(i===-1 ? "divFileEntryOpenHeader" : "divFileEntryOpen");
+                    divItem.appendChild(divFileEntryOpen);
+
+                    if (i!==-1){
+                        let divFileEntryOpenInner = document.createElement("div");
+                        divFileEntryOpenInner.textContent = "Open";
+                        divFileEntryOpenInner.classList.add("OpenFileBt");
+                        divFileEntryOpen.append(divFileEntryOpenInner);
+                        divFileEntryOpen.addEventListener("click", ()=>{
+                            console.log("%c Open File " + jsonData[i].name, "color:green");
+
+                        });
+                    }
+
+                    container.append(divItem);
+                }
+            }
+
+            let filesContainer = document.createElement("div");
+            filesContainer.id = "filesContainer";
+            filesContainer.classList.add("filesContainer")
+            classThis.container.appendChild(filesContainer);
+
+            let closeFilesBrowser = new UIDiv();
+            closeFilesBrowser.setId("closeFilesBt");
+            closeFilesBrowser.dom.classList.add("movableCloseHeader");
+            closeFilesBrowser.dom.style.bottom="2.5px";
+            closeFilesBrowser.dom.style.left="0";
+            closeFilesBrowser.dom.style.top="auto";
+            closeFilesBrowser.setInnerHTML('<span class="material-symbols-outlined">close</span>');
+            filesContainer.append(closeFilesBrowser.dom);
+            closeFilesBrowser.onClick(function(){filesContainer.style.display="none";});
+
+
+
+            function callbackViewFiles( arrayData ) {
+
+                let jsonData = JSON.parse(arrayData);
+
+                appendDom(filesContainer, jsonData)
+
+            }
+
+            downloader("./fnames" , callbackViewFiles, "text/plain", "text" );
+
+            // GLTF MODEL
             if (initialModel) {
 
                 let filename_extension_loadFromJSONorGLB = initialModel.split('.').pop();
 
-                if (filename_extension_loadFromJSONorGLB === "json") {
-
-                    const loader = new THREE.FileLoader();
-
-                    loader.load('examples/' + initialModel, function (text) {
-
-                        classThis.editor.clear("fileExample");
-                        classThis.editor.fromJSON(JSON.parse(text));
-
-                        // setTimeout(function() {
-                        // 	window.w1.editor.setViewportMode("Objects and Nodes per Part");
-                        // }, 1000);
-
-                        //classThis.editor.signals.viewportModeChanged.dispatch();
-                    });
-
-                } else if (filename_extension_loadFromJSONorGLB === "glb" ||
-                    filename_extension_loadFromJSONorGLB === "gltf") {
+                if ( filename_extension_loadFromJSONorGLB === "glb" || filename_extension_loadFromJSONorGLB === "gltf" ) {
 
                     signals.downloadProgressChanged.dispatch(0.01);
                     signals.readProgressChanged.dispatch(0.01);
                     signals.parseProgressChanged.dispatch(0.01);
                     signals.renderProgressChanged.dispatch(0.01);
 
-                    // let f = {};
-                    // f.name = "./examples/" + initialModel;
-                    //
-                    // let loader = classThis.editor.loader.loadFile(f);
-
-                    // let promiseLoad = loader.loadAsync(   //"./examples/" + initialModel);
-                    //
-                    // 	whatToload + compressionLevels[compressionIndex] + '.' + format,
-                    // 	progressFunction);
-
-                    // GLB
-                    function myCallback( response ) {
-
-                        classThis.file = new File([response], initialModel, {type: 'model/gltf-binary'});
-
-                        classThis.editor.loader.loadFile( classThis.file );
-
-                        setTimeout( function() {
-
-                            // window.w1.editor.viewportVertexColors =  "Contour";
-                            // signals.viewportVertexColorsChanged.dispatch("jet", 9);
-
-
-                            // 	window.w1.editor.setViewportMode("Objects and Nodes");
-                        }, 200 );
-                        // classThis.editor.signals.viewportModeChanged.dispatch();
-
-
-                    }
-
-                    function downloader(url, callback) {
-                        const xhr = new XMLHttpRequest();
-
-                        xhr.onprogress = (ev) => {
-
-                            //Downloading Progress
-                            signals.downloadProgressChanged.dispatch(ev.loaded / ev.total);
-
-                        }
-
-                        xhr.onload = () => {
-                            callback(xhr.response);
-                        }
-                        xhr.open('GET', url, true);
-                        xhr.setRequestHeader("Accept", "model/gltf-binary");
-                        xhr.responseType = "arraybuffer";
-                        xhr.send('');
-                    }
-
-                    downloader("./examples/" + initialModel, myCallback);
+                    downloader("./models/Cache/" + initialModel, callbackLoadModel, "model/gltf-binary", "arraybuffer");
                 }
 
             }
@@ -321,6 +371,10 @@ class WrapperOfEditorClass {
         //     }
         // }
 
+
+
+
+
     }
 
 
@@ -328,3 +382,9 @@ class WrapperOfEditorClass {
 }
 
 window.w1 = new WrapperOfEditorClass('left_container', '100%', ''); //'Explorer12.h3d.glb'); //bumper.h3d.glb'); // 'owl_good.gltf'); //'mymodel20.glb');   // 'owl_good.gltf'); //'boltsExample.glb'); //'mymodel_attributeScalar.glb'); // 'boltsExample.glb'); // 'iBeam.glb'); //A4Mil.glb'); //front_suspension.app.json'); //A4Mil.glb' ); // ""
+
+
+
+
+
+

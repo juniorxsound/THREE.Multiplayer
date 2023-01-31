@@ -17,8 +17,6 @@ class SocketPlayerReceiver extends EventEmitter{
         //Since we extend EventEmitter we need to instance it from here
         super();
 
-        console.log(wrapperClass);
-
         //---------------  Socket io ------------------------
         wrapperClass.container.addEventListener('mouseenter', e => {
             this.emit('mouseEntered');
@@ -42,8 +40,6 @@ class SocketPlayerReceiver extends EventEmitter{
         wrapperClass.editor.socket.on('newUserName', (id, name)=>{
 
             document.getElementById("usernameInput").classList.add("userLoggedIn");
-
-            console.log("%c New user name for "  + id + " = " + name, "color: yellow");
 
             const imageLoader = new THREE.ImageLoader();
             imageLoader.load( 'images/altair-logo.png', (img)=>{
@@ -92,10 +88,6 @@ class SocketPlayerReceiver extends EventEmitter{
         //On connection server sends the client his ID
         wrapperClass.editor.socket.on('introduction', (_id, _clientNum, _ids) => {
 
-            console.log('%c intro user with id:' + _id, "color: cyan");
-
-            console.log("_ids", _ids);
-
             for(let i = 0; i < _ids.length; i++){
 
                 if(_ids[i] != _id){
@@ -120,17 +112,11 @@ class SocketPlayerReceiver extends EventEmitter{
         // New user connect
         wrapperClass.editor.socket.on('newUserConnected', (clientCount, _id, _ids) => {
 
-            console.log('newUserConnected: ' + clientCount + ' clients connected');
-
             let alreadyHasUser = false;
 
             for(let i = 0; i < Object.keys(clients).length; i++){
 
-                console.log("A");
-
                 if(Object.keys(clients)[i] == _id){
-
-                    console.log("B");
 
                     alreadyHasUser = true;
 
@@ -139,11 +125,6 @@ class SocketPlayerReceiver extends EventEmitter{
             }
 
             if(_id != id && !alreadyHasUser){
-
-                console.log("C");
-
-                console.log('A new user connected with the id: ' + _id);
-
 
                 // Avatar representation
 
@@ -157,20 +138,11 @@ class SocketPlayerReceiver extends EventEmitter{
 
                 //Add initial users to the scene
                 ctx.editor.scene.add(clients[_id].mesh);
-
-
-
                 ctx.editor.signals.sceneGraphChanged.dispatch();
-
             }
-
         });
-
         //----------------------------------------------
-
     }
-
-
 }
 
 export default SocketPlayerReceiver

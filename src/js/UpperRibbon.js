@@ -27,30 +27,28 @@ function UpperRibbon( editor ) {
 	ribbonOpenFileBt.dom.appendChild( ribbonOpenFileBtDiv );
 	ribbonOpenFileBt.onClick( function () {
 
+		let filesContaner = document.getElementById("filesContainer");
+		filesContaner.style.display = "block";
+
 
 		//signals.browserToolbarVisibilityToggle.dispatch( this.dom );
 
 
-
-		const form = document.createElement( 'form' );
-		form.style.display = 'none';
-		document.body.appendChild( form );
-
-		const fileInput = document.createElement( 'input' );
-		fileInput.multiple = true;
-		fileInput.type = 'file';
-		fileInput.addEventListener( 'change', function () {
-
-			editor.clear();
-
-			editor.loader.loadFiles( fileInput.files );
-			form.reset();
-
-		} );
-		form.appendChild( fileInput );
-
-
-		fileInput.click();
+		// // Local files
+		// const form = document.createElement( 'form' );
+		// form.style.display = 'none';
+		// document.body.appendChild( form );
+		//
+		// const fileInput = document.createElement( 'input' );
+		// fileInput.multiple = true;
+		// fileInput.type = 'file';
+		// fileInput.addEventListener( 'change', function () {
+		// 	editor.clear();
+		// 	editor.loader.loadFiles( fileInput.files );
+		// 	form.reset();
+		// } );
+		// form.appendChild( fileInput );
+		// fileInput.click();
 
 
 

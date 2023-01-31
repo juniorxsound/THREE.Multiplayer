@@ -1,8 +1,12 @@
 'use strict'
 
+const fs = require('fs');
+const path = require('path');
+
 //////EXPRESS////////
 const express = require('express');
 const app = express();
+
 
 ////////HTTP/////////
 const http = require('http').createServer(app);
@@ -89,6 +93,11 @@ io.on('connection', client => {
 
 });
 
+
+
+
+
+
 /////////////////////
 //////ROUTER/////////
 /////////////////////
@@ -100,9 +109,38 @@ app.get('/', (req, res) => {
 
 });
 
-//404 view
-app.get('/*', (req, res) => {
+app.get('/fnames', (req, res) => {
 
-	res.render('404.html');
+  /////// FILE BROWSER ////////
+  // let fnames = fs.readdirSync('./public/models', {withFileTypes: true})
+  //     .filter(item => !item.isDirectory())
+  //     .map(item => item.name);
+
+  const getFileInfoFromFolder = (route) => {
+    const files = fs.readdirSync(route, 'utf8');
+
+    const response = [];
+
+    for (let file of files) {
+      const extension = path.extname(file);
+
+      const fileSizeInBytes = fs.statSync(route + file).size;
+
+      if(fileSizeInBytes>0)
+        response.push({ name: file, extension, fileSizeInBytes });
+    }
+
+    return JSON.stringify(response);
+  }
+
+  res.send(getFileInfoFromFolder('./public/models/'));
 
 });
+
+
+//404 view
+// app.get('/*', (req, res) => {
+//
+// 	res.render('404.html');
+//
+// });

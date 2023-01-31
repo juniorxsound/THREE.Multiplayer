@@ -166,6 +166,88 @@
     font-size: 24px;
 }
 
+/* --------- files ----------- */
+.filesContainer{
+    background: var(--bkg-for-dark);
+    color: var(--text-for-dark);
+    text-align: left;
+    z-index: 3;
+    left:200px;
+    min-width: 300px;
+    min-height: 200px;
+    top:120px;
+    position:absolute;
+    color: var(--text-for-dark);
+    background: var(--bars-for-dark);
+    resize: both;
+    overflow: auto;
+    display: none;
+}
+
+
+.divFileNameEntryHeader{
+    display:inline-block;
+    width:55%;
+    background: var(--bkg-for-dark);
+    font-weight: bold;
+    text-align: center;
+}
+.divFileEntrySizeHeader{
+    font-weight: bold;
+    background: var(--bkg-for-dark);
+    display:inline-block;
+    width:20%;
+    text-align: center;
+}
+.divFileEntryOpenHeader{
+    display:inline-block;
+    font-weight: bold;
+    background: var(--bkg-for-dark);
+    width:25%;
+    text-align: center;
+}
+
+
+.divFileNameEntry{
+    display:inline-block;
+    width:55%;
+}
+.fileNameEntry{
+    margin-left:5px;
+}
+
+.divFileEntrySize{
+    display:inline-block;
+    width:20%;
+    text-align: right;
+}
+.divFileEntryOpen{
+    width:25%;
+    display:inline-block;
+    text-align: center;
+}
+
+
+.OpenFileBt{
+    color:#444;
+    /*border:1px solid #CCC;*/
+    background:#DDD;
+    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+    cursor: pointer;
+    vertical-align:middle;
+    max-width: 60px;
+    margin:auto;
+}
+
+.OpenFileBt:active{
+    color:green;
+    box-shadow: 0 0 5px -1px rgba(0,0,0,0.6);
+}
+
+.OpenFileBt:hover{
+    background:#9e9e9e;
+}
+
 /* -------- User List --------- */
 .userList{
     margin:2px;
@@ -236,6 +318,8 @@ ol.userList li a:before{
     width:16px;
     height:16px;
 }
+
+
 
 /* =========== Toolbar ============== */
 .toolbar {
